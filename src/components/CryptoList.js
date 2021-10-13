@@ -10,8 +10,9 @@ class CryptoList extends React.Component {
           <th></th>
           <th>#</th>
           <th>Name</th>
-          <th style={{ textAlign: "right" }}>24 hour %</th>
-          <th style={{ textAlign: "right" }}>7 day %</th>
+          <th style={{ textAlign: "right" }}>Price</th>
+          <th style={{ textAlign: "right" }}>24h %</th>
+          <th style={{ textAlign: "right" }}>7d %</th>
           <th style={{ textAlign: "right" }}>Market Cap</th>
           <th style={{ textAlign: "right" }}>Volume(24 hours)</th>
           <th style={{ textAlign: "right" }}>Circulating Supply</th>
