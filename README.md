@@ -10,8 +10,11 @@ This app was created as a portfolio project and is loosely based on [CoinMarketC
 ### Environment
 create-react-app
 
+### Cryptocurrency Data
+CoinGecko API
+
 ### Styling
-react-bootstrap
+react-bootstrap & Bootstrap
 
 ### Icons
 Bootstrap Icon Library
