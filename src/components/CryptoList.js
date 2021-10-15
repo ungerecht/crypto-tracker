@@ -1,13 +1,13 @@
 import React from "react";
-import coingecko from "../apis/coingecko";
+import { connect } from "react-redux";
+import { setActive, fetchMarket } from "../actions";
 import { Container, Table, Col, Row } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { formatCurrency } from "@coingecko/cryptoformat";
+import history from "../history";
 import "../styles/CryptoList.css";
 
 class CryptoList extends React.Component {
-  state = { coins: [] };
-
   star = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,14 +22,19 @@ class CryptoList extends React.Component {
   );
 
   componentDidMount() {
-    this.getCoins();
+    if (this.props.match.params.page) {
+      this.props.fetchMarket(this.props.match.params.page);
+      this.props.setActive(this.props.match.params.page);
+    } else {
+      this.props.fetchMarket(this.props.active);
+    }
   }
 
-  getCoins = async () => {
-    const response = await coingecko.get("/coins/markets/");
-    this.setState({ coins: response.data });
-    console.log(response.data);
-  };
+  componentDidUpdate(prevProps) {
+    if (prevProps.active !== this.props.active) {
+      this.props.fetchMarket(this.props.active);
+    }
+  }
 
   renderHead() {
     return (
@@ -50,7 +55,7 @@ class CryptoList extends React.Component {
   }
 
   renderBody() {
-    return this.state.coins.map((coin) => {
+    return this.props.coins.map((coin) => {
       return (
         <tr key={coin.market_cap_rank}>
           <td>{this.star}</td>
@@ -85,9 +90,11 @@ class CryptoList extends React.Component {
                 coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
             }}
           >
-            {coin.price_change_percentage_24h.toLocaleString(undefined, {
-              maximumFractionDigits: 2,
-            })}
+            {coin.price_change_percentage_24h
+              ? coin.price_change_percentage_24h.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })
+              : coin.price_change_percentage_24h}
             %
           </td>
           <td
@@ -151,4 +158,8 @@ class CryptoList extends React.Component {
   }
 }
 
-export default CryptoList;
+const mapStateToProps = (state) => {
+  return { active: state.page.active, coins: state.page.coins };
+};
+
+export default connect(mapStateToProps, { fetchMarket, setActive })(CryptoList);

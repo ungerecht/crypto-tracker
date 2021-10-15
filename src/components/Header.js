@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, Container, Col } from "react-bootstrap";
-import GoogleAuth from "./GoogleAuth.js";
-import SearchBar from "./SearchBar.js";
+import GoogleAuth from "./GoogleAuth";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   return (
