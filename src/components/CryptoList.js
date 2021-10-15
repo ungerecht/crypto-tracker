@@ -33,6 +33,7 @@ class CryptoList extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.active !== this.props.active) {
       this.props.fetchMarket(this.props.active);
+      window.scroll(0, 0);
     }
   }
 
