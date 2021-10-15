@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setActive, fetchMarket } from "../actions";
+import PaginationBar from "./PaginationBar";
 import { Container, Table, Col, Row } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { formatCurrency } from "@coingecko/cryptoformat";
@@ -33,11 +34,11 @@ class CryptoList extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.active !== this.props.active) {
       this.props.fetchMarket(this.props.active);
-      window.scroll(0, 0);
     }
   }
 
   renderHead() {
+    console.log("render table head");
     return (
       <thead className="sticky-top">
         <tr>
@@ -56,6 +57,7 @@ class CryptoList extends React.Component {
   }
 
   renderBody() {
+    console.log("render table body");
     return this.props.coins.map((coin) => {
       return (
         <tr key={coin.market_cap_rank}>
@@ -154,6 +156,11 @@ class CryptoList extends React.Component {
           {this.renderHead()}
           <tbody>{this.renderBody()}</tbody>
         </Table>
+        <Row className="justify-content-center">
+          <Col md="auto">
+            <PaginationBar />
+          </Col>
+        </Row>
       </Container>
     );
   }

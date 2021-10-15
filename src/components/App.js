@@ -4,7 +4,6 @@ import Header from "./Header";
 
 import history from "../history";
 import CryptoList from "./CryptoList";
-import PaginationBar from "./PaginationBar";
 
 const App = () => {
   return (
@@ -15,7 +14,6 @@ const App = () => {
           <Route path="/" exact component={CryptoList} />
           <Route path="/page=:page" component={CryptoList} />
         </Switch>
-        <PaginationBar />
       </Router>
     </>
   );

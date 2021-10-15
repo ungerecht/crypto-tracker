@@ -11,37 +11,65 @@ class PaginationBar extends React.Component {
   }
 
   createPagination = () => {
-    console.log("poop");
-    let items = [];
-    for (let i = 1; i < this.props.numberOfCoins / 20; i++) {
-      items = [
-        ...items,
-        <Pagination.Item
-          key={i}
-          active={i === this.props.active}
+    const onFirst = this.props.active === 1;
+    const onLast = this.props.active === this.props.numberOfCoins / 20;
+    return (
+      <Pagination size="sm">
+        <Pagination.Prev
+          disabled={onFirst}
           onClick={() => {
-            this.props.setActive(i);
-            history.push(`/page=${i}`);
+            history.push(`/page=${this.props.active - 1}`);
+            this.props.setActive(this.props.active - 1);
           }}
-        >
-          {i}
-        </Pagination.Item>,
-      ];
+        />
+        {this.createItems()}
+        <Pagination.Next
+          disabled={onLast}
+          onClick={() => {
+            history.push(`/page=${this.props.active + 1}`);
+            this.props.setActive(this.props.active + 1);
+          }}
+        />
+      </Pagination>
+    );
+  };
+
+  createItems = () => {
+    let items = [];
+    const amountOfPages = Math.floor(this.props.numberOfCoins / 20);
+    for (let i = 1; i <= amountOfPages; i++) {
+      if (
+        i === 1 ||
+        i === amountOfPages ||
+        (i >= this.props.active - 5 && i <= this.props.active + 5)
+      ) {
+        if (
+          (i === this.props.active - 5 && i !== 1) ||
+          (i === this.props.active + 5 && i !== amountOfPages)
+        ) {
+          items = [...items, <Pagination.Ellipsis key={i} disabled />];
+        } else {
+          items = [
+            ...items,
+            <Pagination.Item
+              key={i}
+              active={i === this.props.active}
+              onClick={() => {
+                this.props.setActive(i);
+                history.push(`/page=${i}`);
+              }}
+            >
+              {i}
+            </Pagination.Item>,
+          ];
+        }
+      }
     }
     return items;
   };
 
   render() {
-    return (
-      <div>
-        <Pagination size="sm">
-          <Pagination.Prev />
-          {this.createPagination()}
-          <Pagination.Ellipsis />
-          <Pagination.Next />
-        </Pagination>
-      </div>
-    );
+    return <div>{this.createPagination()}</div>;
   }
 }
 

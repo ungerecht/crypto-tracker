@@ -30,6 +30,7 @@ export const fetchMarket = (page) => async (dispatch) => {
   console.log("fetching market");
   const response = await coinsmarket(page);
   dispatch({ type: FETCH_MARKET, payload: response.data });
+  window.scroll(0, 0);
 };
 
 export const setActive = (active) => {
