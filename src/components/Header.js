@@ -10,9 +10,8 @@ const Header = () => {
         <Container>
           <Navbar.Brand href="/">Crypto Tracker</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link>Cryptocurrencies</Nav.Link>
+            <Nav.Link href="/">Cryptocurrencies</Nav.Link>
             <Nav.Link>Watchlist</Nav.Link>
-            <Nav.Link>About</Nav.Link>
           </Nav>
           <Col className="mx-4">
             <SearchBar />
