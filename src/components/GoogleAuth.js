@@ -47,7 +47,7 @@ class GoogleAuth extends React.Component {
         </Button>
       );
     } else {
-      return <Button onClick={this.onSignInClick}>{this.icon} Log In</Button>;
+      return <Button onClick={this.onSignInClick}>{googleIcon} Log In</Button>;
     }
   }
 
