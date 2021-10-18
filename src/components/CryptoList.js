@@ -23,12 +23,7 @@ class CryptoList extends React.Component {
   );
 
   componentDidMount() {
-    if (this.props.match.params.page) {
-      this.props.fetchMarket(this.props.match.params.page);
-      this.props.setActive(this.props.match.params.page);
-    } else {
-      this.props.fetchMarket(this.props.active);
-    }
+    this.props.fetchMarket(this.props.active);
   }
 
   componentDidUpdate(prevProps) {
@@ -38,7 +33,6 @@ class CryptoList extends React.Component {
   }
 
   renderHead() {
-    console.log("render table head");
     return (
       <thead className="sticky-top">
         <tr>
@@ -57,7 +51,6 @@ class CryptoList extends React.Component {
   }
 
   renderBody() {
-    console.log("render table body");
     return this.props.coins.map((coin) => {
       return (
         <tr key={coin.market_cap_rank}>
@@ -158,7 +151,13 @@ class CryptoList extends React.Component {
         </Table>
         <Row className="justify-content-center">
           <Col md="auto">
-            <PaginationBar />
+            <PaginationBar
+              page={
+                this.props.match.params.page
+                  ? parseInt(this.props.match.params.page, 10)
+                  : 1
+              }
+            />
           </Col>
         </Row>
       </Container>

@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import history from "../history";
 import CryptoList from "./CryptoList";
+import CryptoDetail from "./CryptoDetail";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={CryptoList} />
           <Route path="/page=:page" component={CryptoList} />
+          <Route path="/coin/:id" component={CryptoDetail} />
         </Switch>
         <Footer />
       </Router>

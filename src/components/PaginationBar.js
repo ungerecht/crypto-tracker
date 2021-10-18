@@ -7,6 +7,9 @@ import "../styles/PaginationBar.css";
 
 class PaginationBar extends React.Component {
   componentDidMount() {
+    if (this.props.ownProps.page !== this.props.active) {
+      this.props.setActive(this.props.ownProps.page);
+    }
     this.props.fetchCoins();
   }
 
@@ -73,8 +76,9 @@ class PaginationBar extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    ownProps,
     active: state.page.active,
     numberOfCoins: state.page.number,
   };
