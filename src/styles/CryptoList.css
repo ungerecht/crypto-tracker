@@ -1,5 +1,5 @@
 th {
-  font-size: 13px;
+  font-size: 0.8em;
 }
 
 .table > thead {
@@ -9,16 +9,10 @@ th {
 
 .table > tbody > tr > td {
   vertical-align: middle;
+  font-size: 0.875em;
 }
 
-td.center {
-  text-align: center;
-}
-
-td.right {
-  text-align: right;
-}
-
-tr > td.chart {
-  width: 135px;
+.table > tbody > tr > td > div {
+  display: flex;
+  align-items: center;
 }

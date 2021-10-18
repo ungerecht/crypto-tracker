@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchMarket } from "../actions";
+import { fetchMarket, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
 import { Container, Table, Col, Row } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -9,7 +9,21 @@ import "../styles/CryptoList.css";
 
 class CryptoList extends React.Component {
   componentDidMount() {
-    this.props.fetchMarket(this.props.active);
+    if (this.props.match.params.page) {
+      //url page exists
+      const page = parseInt(this.props.match.params.page, 10);
+      if (page !== this.props.active) {
+        //url page is not active
+        this.props.setActive(page);
+        this.props.fetchMarket(page);
+      } else {
+        //url page exists and is active
+        this.props.fetchMarket(this.props.active);
+      }
+    } else {
+      //home page
+      this.props.fetchMarket(this.props.active);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -23,14 +37,14 @@ class CryptoList extends React.Component {
       <thead className="sticky-top">
         <tr>
           <th></th>
-          <th style={{ textAlign: "center" }}>#</th>
+          <th className="text-center">#</th>
           <th>Coin</th>
-          <th style={{ textAlign: "right" }}>Price</th>
-          <th style={{ textAlign: "right" }}>24h</th>
-          <th style={{ textAlign: "right" }}>7d</th>
-          <th style={{ textAlign: "right" }}>Market Cap</th>
-          <th style={{ textAlign: "right" }}>Circulating Supply</th>
-          <th style={{ textAlign: "center" }}>Last 7 Days</th>
+          <th className="text-end">Price</th>
+          <th className="text-end">24h</th>
+          <th className="text-end">7d</th>
+          <th className="text-end">Market Cap</th>
+          <th className="text-end">Circulating Supply</th>
+          <th className="text-center">Last 7 Days</th>
         </tr>
       </thead>
     );
@@ -42,33 +56,34 @@ class CryptoList extends React.Component {
         {this.props.coins.map((coin) => {
           return (
             <tr key={coin.id} height={68}>
-              <td>{starIcon}</td>
-              <td className="center">{coin.market_cap_rank}</td>
-              <td>
-                <Row>
-                  <Col xs="auto">
-                    <img
-                      src={coin.image}
-                      width="20px"
-                      className="center"
-                      alt={coin.name + " icon"}
-                    />
-                  </Col>
-                  <Col xs={6}>
-                    <strong>{coin.name}</strong>
-                  </Col>
-                  <Col xs="auto">
-                    <small className="text-muted">{coin.symbol}</small>
-                  </Col>
-                </Row>
+              <td width={20} className="pe-0">
+                <div className="justify-content-center">{starIcon}</div>
               </td>
-              <td className="right">{coin.current_price}</td>
+              <td width={47} className="text-center">
+                {coin.market_cap_rank}
+              </td>
+              <td>
+                <div>
+                  <img
+                    src={coin.image}
+                    width="20px"
+                    alt={coin.name + " icon"}
+                    className="me-3"
+                  />
+                  <strong className="col-4">{coin.name}</strong>
+                  <small>{coin.symbol}</small>
+                </div>
+              </td>
+              <td className="text-end" width={120}>
+                {coin.current_price}
+              </td>
               <td
                 className="right"
                 style={{
                   color:
                     coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
                 }}
+                width={70}
               >
                 {coin.price_change_percentage_24h}%
               </td>
@@ -80,12 +95,18 @@ class CryptoList extends React.Component {
                       ? "limegreen"
                       : "red",
                 }}
+                width={70}
               >
                 {coin.price_change_percentage_7d_in_currency}%
               </td>
-              <td className="right">{coin.market_cap}</td>
-              <td className="right">{`${coin.circulating_supply} ${coin.symbol}`}</td>
-              <td className="chart">
+              <td className="text-end" width={155}>
+                {coin.market_cap}
+              </td>
+              <td className="text-end" width={200}>
+                <span>{coin.circulating_supply}</span>
+                <small className="text-muted ms-1">{coin.symbol}</small>
+              </td>
+              <td width={135}>
                 <Sparklines
                   data={coin.sparkline_in_7d.price}
                   svgHeight={50}
@@ -120,13 +141,7 @@ class CryptoList extends React.Component {
         </Table>
         <Row className="justify-content-center">
           <Col md="auto">
-            <PaginationBar
-              page={
-                this.props.match.params.page
-                  ? parseInt(this.props.match.params.page, 10)
-                  : 1
-              }
-            />
+            <PaginationBar />
           </Col>
         </Row>
       </Container>
@@ -138,4 +153,4 @@ const mapStateToProps = (state) => {
   return { active: state.page.active, coins: state.page.coins };
 };
 
-export default connect(mapStateToProps, { fetchMarket })(CryptoList);
+export default connect(mapStateToProps, { fetchMarket, setActive })(CryptoList);
