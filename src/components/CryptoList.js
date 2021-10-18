@@ -5,7 +5,7 @@ import PaginationBar from "./PaginationBar";
 import { Container, Table, Col, Row } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { formatCurrency } from "@coingecko/cryptoformat";
-import history from "../history";
+
 import "../styles/CryptoList.css";
 
 class CryptoList extends React.Component {

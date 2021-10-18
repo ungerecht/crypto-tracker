@@ -1,3 +1,3 @@
-.navbar > .container {
-  align-items: start !important;
+nav.navbar > div.container > span.navbar-brand > span.navbar-text {
+  font-size: 0.75rem;
 }
