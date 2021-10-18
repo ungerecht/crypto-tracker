@@ -10,3 +10,15 @@ th {
 .table > tbody > tr > td {
   vertical-align: middle;
 }
+
+td.center {
+  text-align: center;
+}
+
+td.right {
+  text-align: right;
+}
+
+tr > td.chart {
+  width: 135px;
+}

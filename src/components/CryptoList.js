@@ -32,6 +32,41 @@ class CryptoList extends React.Component {
     }
   }
 
+  formatCoin(coin) {
+    console.log("formatting");
+    //make symbol uppercase
+    coin.symbol = coin.symbol.toUpperCase();
+
+    //format price
+    coin.current_price = formatCurrency(coin.current_price, "USD", "en");
+
+    //format 24h price change %
+    coin.price_change_percentage_24h = this.formatData(
+      coin.price_change_percentage_24h,
+      2
+    );
+
+    //format 7d price change %
+    coin.price_change_percentage_7d_in_currency = this.formatData(
+      coin.price_change_percentage_7d_in_currency,
+      2
+    );
+
+    //format market cap
+    coin.market_cap = formatCurrency(coin.market_cap, "USD", "en", false, true);
+
+    //format circulating supply
+    coin.circulating_supply = this.formatData(coin.circulating_supply, 0);
+  }
+
+  formatData = (data, maximumFractionDigits) => {
+    if (data) {
+      return data.toLocaleString(undefined, { maximumFractionDigits });
+    } else {
+      return "?";
+    }
+  };
+
   renderHead() {
     return (
       <thead className="sticky-top">
@@ -52,10 +87,11 @@ class CryptoList extends React.Component {
 
   renderBody() {
     return this.props.coins.map((coin) => {
+      this.formatCoin(coin);
       return (
-        <tr key={coin.market_cap_rank}>
+        <tr key={coin.id} height={68}>
           <td>{this.star}</td>
-          <td style={{ textAlign: "center" }}>{coin.market_cap_rank}</td>
+          <td className="center">{coin.market_cap_rank}</td>
           <td>
             <Row>
               <Col xs="auto">
@@ -70,55 +106,34 @@ class CryptoList extends React.Component {
                 <strong>{coin.name}</strong>
               </Col>
               <Col xs="auto">
-                <small className="text-muted">
-                  {coin.symbol.toUpperCase()}
-                </small>
+                <small className="text-muted">{coin.symbol}</small>
               </Col>
             </Row>
           </td>
-          <td style={{ textAlign: "right" }}>
-            {formatCurrency(coin.current_price, "USD", "en")}
-          </td>
+          <td className="right">{coin.current_price}</td>
           <td
+            className="right"
             style={{
-              textAlign: "right",
               color:
                 coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
             }}
           >
-            {coin.price_change_percentage_24h
-              ? coin.price_change_percentage_24h.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })
-              : coin.price_change_percentage_24h}
-            %
+            {coin.price_change_percentage_24h}%
           </td>
           <td
+            className="right"
             style={{
-              textAlign: "right",
               color:
                 coin.price_change_percentage_7d_in_currency >= 0
                   ? "limegreen"
                   : "red",
             }}
           >
-            {coin.price_change_percentage_7d_in_currency.toLocaleString(
-              undefined,
-              {
-                maximumFractionDigits: 2,
-              }
-            )}
-            %
+            {coin.price_change_percentage_7d_in_currency}%
           </td>
-          <td style={{ textAlign: "right" }}>
-            {formatCurrency(coin.market_cap, "USD", "en", false, true)}
-          </td>
-          <td
-            style={{ textAlign: "right" }}
-          >{`${coin.circulating_supply.toLocaleString(undefined, {
-            maximumFractionDigits: 0,
-          })} ${coin.symbol.toUpperCase()}`}</td>
-          <td className="text-center" style={{ width: "135px" }}>
+          <td className="right">{coin.market_cap}</td>
+          <td className="right">{`${coin.circulating_supply} ${coin.symbol}`}</td>
+          <td className="chart">
             <Sparklines
               data={coin.sparkline_in_7d.price}
               svgHeight={50}
