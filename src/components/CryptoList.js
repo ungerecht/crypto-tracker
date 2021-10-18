@@ -1,27 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setActive, fetchMarket } from "../actions";
+import { fetchMarket } from "../actions";
 import PaginationBar from "./PaginationBar";
 import { Container, Table, Col, Row } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import { formatCurrency } from "@coingecko/cryptoformat";
-
+import { starIcon } from "../icons";
 import "../styles/CryptoList.css";
 
 class CryptoList extends React.Component {
-  star = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      fill="currentColor"
-      className="bi bi-star"
-      viewBox="0 0 20 20"
-    >
-      <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-    </svg>
-  );
-
   componentDidMount() {
     this.props.fetchMarket(this.props.active);
   }
@@ -31,41 +17,6 @@ class CryptoList extends React.Component {
       this.props.fetchMarket(this.props.active);
     }
   }
-
-  formatCoin(coin) {
-    console.log("formatting");
-    //make symbol uppercase
-    coin.symbol = coin.symbol.toUpperCase();
-
-    //format price
-    coin.current_price = formatCurrency(coin.current_price, "USD", "en");
-
-    //format 24h price change %
-    coin.price_change_percentage_24h = this.formatData(
-      coin.price_change_percentage_24h,
-      2
-    );
-
-    //format 7d price change %
-    coin.price_change_percentage_7d_in_currency = this.formatData(
-      coin.price_change_percentage_7d_in_currency,
-      2
-    );
-
-    //format market cap
-    coin.market_cap = formatCurrency(coin.market_cap, "USD", "en", false, true);
-
-    //format circulating supply
-    coin.circulating_supply = this.formatData(coin.circulating_supply, 0);
-  }
-
-  formatData = (data, maximumFractionDigits) => {
-    if (data) {
-      return data.toLocaleString(undefined, { maximumFractionDigits });
-    } else {
-      return "?";
-    }
-  };
 
   renderHead() {
     return (
@@ -86,75 +37,78 @@ class CryptoList extends React.Component {
   }
 
   renderBody() {
-    return this.props.coins.map((coin) => {
-      this.formatCoin(coin);
-      return (
-        <tr key={coin.id} height={68}>
-          <td>{this.star}</td>
-          <td className="center">{coin.market_cap_rank}</td>
-          <td>
-            <Row>
-              <Col xs="auto">
-                <img
-                  src={coin.image}
-                  width="20px"
-                  className="center"
-                  alt={coin.name + " icon"}
-                />
-              </Col>
-              <Col xs={6}>
-                <strong>{coin.name}</strong>
-              </Col>
-              <Col xs="auto">
-                <small className="text-muted">{coin.symbol}</small>
-              </Col>
-            </Row>
-          </td>
-          <td className="right">{coin.current_price}</td>
-          <td
-            className="right"
-            style={{
-              color:
-                coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
-            }}
-          >
-            {coin.price_change_percentage_24h}%
-          </td>
-          <td
-            className="right"
-            style={{
-              color:
-                coin.price_change_percentage_7d_in_currency >= 0
-                  ? "limegreen"
-                  : "red",
-            }}
-          >
-            {coin.price_change_percentage_7d_in_currency}%
-          </td>
-          <td className="right">{coin.market_cap}</td>
-          <td className="right">{`${coin.circulating_supply} ${coin.symbol}`}</td>
-          <td className="chart">
-            <Sparklines
-              data={coin.sparkline_in_7d.price}
-              svgHeight={50}
-              svgWidth={135}
-            >
-              <SparklinesLine
-                color={
-                  coin.sparkline_in_7d.price[0] <=
-                  coin.sparkline_in_7d.price[
-                    coin.sparkline_in_7d.price.length - 1
-                  ]
-                    ? "limegreen"
-                    : "red"
-                }
-                style={{ fill: "none" }}
-              />
-            </Sparklines>
-          </td>
-        </tr>
-      );
-    });
+    return (
+      <tbody>
+        {this.props.coins.map((coin) => {
+          return (
+            <tr key={coin.id} height={68}>
+              <td>{starIcon}</td>
+              <td className="center">{coin.market_cap_rank}</td>
+              <td>
+                <Row>
+                  <Col xs="auto">
+                    <img
+                      src={coin.image}
+                      width="20px"
+                      className="center"
+                      alt={coin.name + " icon"}
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <strong>{coin.name}</strong>
+                  </Col>
+                  <Col xs="auto">
+                    <small className="text-muted">{coin.symbol}</small>
+                  </Col>
+                </Row>
+              </td>
+              <td className="right">{coin.current_price}</td>
+              <td
+                className="right"
+                style={{
+                  color:
+                    coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
+                }}
+              >
+                {coin.price_change_percentage_24h}%
+              </td>
+              <td
+                className="right"
+                style={{
+                  color:
+                    coin.price_change_percentage_7d_in_currency >= 0
+                      ? "limegreen"
+                      : "red",
+                }}
+              >
+                {coin.price_change_percentage_7d_in_currency}%
+              </td>
+              <td className="right">{coin.market_cap}</td>
+              <td className="right">{`${coin.circulating_supply} ${coin.symbol}`}</td>
+              <td className="chart">
+                <Sparklines
+                  data={coin.sparkline_in_7d.price}
+                  svgHeight={50}
+                  svgWidth={135}
+                >
+                  <SparklinesLine
+                    color={
+                      coin.sparkline_in_7d.price[0] <=
+                      coin.sparkline_in_7d.price[
+                        coin.sparkline_in_7d.price.length - 1
+                      ]
+                        ? "limegreen"
+                        : "red"
+                    }
+                    style={{ fill: "none" }}
+                  />
+                </Sparklines>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    );
   }
 
   render() {
@@ -162,7 +116,7 @@ class CryptoList extends React.Component {
       <Container className="pt-5">
         <Table hover>
           {this.renderHead()}
-          <tbody>{this.renderBody()}</tbody>
+          {this.renderBody()}
         </Table>
         <Row className="justify-content-center">
           <Col md="auto">
@@ -184,4 +138,4 @@ const mapStateToProps = (state) => {
   return { active: state.page.active, coins: state.page.coins };
 };
 
-export default connect(mapStateToProps, { fetchMarket, setActive })(CryptoList);
+export default connect(mapStateToProps, { fetchMarket })(CryptoList);

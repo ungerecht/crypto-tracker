@@ -1,5 +1,6 @@
 import coinslist from "../apis/coinslist";
 import coinsmarket from "../apis/coinsmarket";
+import { formatCoins } from "../helpers";
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -28,7 +29,8 @@ export const fetchCoins = () => async (dispatch) => {
 
 export const fetchMarket = (page) => async (dispatch) => {
   const response = await coinsmarket(page);
-  dispatch({ type: FETCH_MARKET, payload: response.data });
+  const coins = formatCoins(response.data);
+  dispatch({ type: FETCH_MARKET, payload: coins });
   window.scroll(0, 0);
 };
 
