@@ -57,13 +57,15 @@ class CryptoList extends React.Component {
           return (
             <tr key={coin.id} height={68}>
               <td width={20} className="pe-0">
-                <div className="justify-content-center">{starIcon}</div>
+                <div className="d-flex align-items-center justify-content-center">
+                  {starIcon}
+                </div>
               </td>
               <td width={47} className="text-center">
                 {coin.market_cap_rank}
               </td>
               <td>
-                <div>
+                <div className="d-flex align-items-center">
                   <img
                     src={coin.image}
                     width="20px"

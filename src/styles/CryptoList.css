@@ -11,8 +11,3 @@ th {
   vertical-align: middle;
   font-size: 0.875em;
 }
-
-.table > tbody > tr > td > div {
-  display: flex;
-  align-items: center;
-}
