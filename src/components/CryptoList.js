@@ -56,7 +56,7 @@ class CryptoList extends React.Component {
         {this.props.coins.map((coin) => {
           return (
             <tr key={coin.id} height={68}>
-              <td width={20} className="pe-0">
+              <td width={20}>
                 <div className="d-flex align-items-center justify-content-center">
                   {starIcon}
                 </div>
@@ -72,8 +72,8 @@ class CryptoList extends React.Component {
                     alt={coin.name + " icon"}
                     className="me-3"
                   />
-                  <strong className="col-4">{coin.name}</strong>
-                  <small>{coin.symbol}</small>
+                  <strong className="col-3 me-5">{coin.name}</strong>
+                  <small className="col-1 ms-2">{coin.symbol}</small>
                 </div>
               </td>
               <td className="text-end" width={120}>
@@ -136,16 +136,12 @@ class CryptoList extends React.Component {
 
   render() {
     return (
-      <Container className="pt-5">
-        <Table hover>
+      <Container className="pt-5" fluid="lg">
+        <Table responsive hover>
           {this.renderHead()}
           {this.renderBody()}
         </Table>
-        <Row className="justify-content-center">
-          <Col md="auto">
-            <PaginationBar />
-          </Col>
-        </Row>
+        <PaginationBar />
       </Container>
     );
   }

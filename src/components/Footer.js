@@ -1,50 +1,52 @@
 import React from "react";
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "../styles/Footer.css";
 import { githubIcon } from "../icons";
 
 const Footer = () => {
   return (
-    <>
-      <Navbar bg="dark" variant="dark" className="py-4">
-        <Container className="justify-content-center">
-          <Navbar.Brand>
-            Crypto Tracker
-            <br />
-            <Navbar.Text>
+    <div className="bg-dark py-4">
+      <Container fluid="lg">
+        <div className="d-flex justify-content-center">
+          <div className="align-items-center footer me-5">
+            <h5 className="text-white">Crypto Tracker</h5>
+            <span className="text-white text-muted">
               Data provided by&nbsp;
               <a
                 href="https://www.coingecko.com/en/api"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="text-white text-decoration-none"
               >
                 CoinGecko API
               </a>
-            </Navbar.Text>
+            </span>
             <br />
-            <Navbar.Text>© 2021 Kevin Ungerecht</Navbar.Text>
-          </Navbar.Brand>
-          <Nav>
-            <Nav.Link
-              className="my-auto"
+            <span className="text-white text-muted">
+              Developed by&nbsp;
+              <a
+                href="https://www.ungerecht.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white text-decoration-none"
+              >
+                Kevin Ungerecht
+              </a>
+            </span>
+          </div>
+          <div width={135} className="d-flex align-items-center ">
+            <a
               href="https://github.com/ungerecht/crypto-tracker"
               target="_blank"
               rel="noopener noreferrer"
+              className="text-white text-decoration-none"
             >
               {githubIcon}
-            </Nav.Link>
-            <Nav.Link
-              className="my-auto"
-              href="https://ungerecht.io"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Developer
-            </Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
+            </a>
+          </div>
+        </div>
+      </Container>
+    </div>
   );
 };
 

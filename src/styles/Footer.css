@@ -1,3 +1,9 @@
-nav.navbar > div.container > span.navbar-brand > span.navbar-text {
+div.footer > span {
   font-size: 0.75rem;
+}
+
+div.footer {
+  max-width: 175px;
+  width: 175px;
+  min-width: 175px;
 }

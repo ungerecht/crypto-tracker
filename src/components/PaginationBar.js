@@ -70,7 +70,11 @@ class PaginationBar extends React.Component {
   };
 
   render() {
-    return <div>{this.createPagination()}</div>;
+    return (
+      <div className="d-flex justify-content-center">
+        {this.createPagination()}
+      </div>
+    );
   }
 }
 
