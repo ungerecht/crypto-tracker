@@ -6,6 +6,8 @@ import PaginationBar from "./PaginationBar";
 import { Container, Table } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { starIcon } from "../icons";
+import { formatPercentage, formatSupply } from "../helpers";
+import { formatCurrency } from "@coingecko/cryptoformat";
 import "../styles/CryptoList.css";
 
 class CryptoList extends React.Component {
@@ -37,14 +39,26 @@ class CryptoList extends React.Component {
     return (
       <thead className="sticky-top">
         <tr>
-          <th></th>
-          <th className="text-center">#</th>
+          <th width={32}></th>
+          <th width={39} className="text-center">
+            #
+          </th>
           <th>Coin</th>
-          <th className="text-end">Price</th>
-          <th className="text-end">24h</th>
-          <th className="text-end">7d</th>
-          <th className="text-end">Market Cap</th>
-          <th className="text-end">Circulating Supply</th>
+          <th width={95} className="text-end px-3">
+            Price
+          </th>
+          <th width={61} className="text-end px-3">
+            24h
+          </th>
+          <th width={61} className="text-end px-3">
+            7d
+          </th>
+          <th width={134} className="text-end px-3">
+            Market Cap
+          </th>
+          <th width={171} className="text-end px-3">
+            Circulating Supply
+          </th>
           <th className="text-center">Last 7 Days</th>
         </tr>
       </thead>
@@ -57,14 +71,12 @@ class CryptoList extends React.Component {
         {this.props.coins.map((coin) => {
           return (
             <tr key={coin.id} height={68}>
-              <td width={20}>
+              <td>
                 <div className="d-flex align-items-center justify-content-center">
                   {starIcon}
                 </div>
               </td>
-              <td width={47} className="text-center">
-                {coin.market_cap_rank}
-              </td>
+              <td className="text-center">{coin.market_cap_rank}</td>
               <td>
                 <Link
                   to={`/coin/${coin.id}`}
@@ -78,41 +90,43 @@ class CryptoList extends React.Component {
                       className="me-3"
                     />
                     <strong className="col-3 me-5">{coin.name}</strong>
-                    <small className="col-1 ms-2">{coin.symbol}</small>
+                    <small className="col-1 ms-2">
+                      {coin.symbol.toUpperCase()}
+                    </small>
                   </div>
                 </Link>
               </td>
-              <td className="text-end" width={120}>
-                {coin.current_price}
+              <td className="text-end px-3">
+                {formatCurrency(coin.current_price, "USD", "en")}
               </td>
               <td
-                className="right"
+                className="text-end px-3"
                 style={{
                   color:
                     coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
                 }}
-                width={70}
               >
-                {coin.price_change_percentage_24h}%
+                {formatPercentage(coin.price_change_percentage_24h)}
               </td>
               <td
-                className="right"
+                className="text-end px-3"
                 style={{
                   color:
                     coin.price_change_percentage_7d_in_currency >= 0
                       ? "limegreen"
                       : "red",
                 }}
-                width={70}
               >
-                {coin.price_change_percentage_7d_in_currency}%
+                {formatPercentage(coin.price_change_percentage_7d_in_currency)}
               </td>
-              <td className="text-end" width={155}>
-                {coin.market_cap}
+              <td className="text-end px-3">
+                {formatCurrency(coin.market_cap, "USD", "en")}
               </td>
-              <td className="text-end" width={200}>
-                <span>{coin.circulating_supply}</span>
-                <small className="text-muted ms-1">{coin.symbol}</small>
+              <td className="text-end px-3">
+                <span>{formatSupply(coin.circulating_supply)}</span>
+                <small className="text-muted ms-1">
+                  {coin.symbol.toUpperCase()}
+                </small>
               </td>
               <td width={135}>
                 <Sparklines

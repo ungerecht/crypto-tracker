@@ -20,7 +20,6 @@ class PaginationBar extends React.Component {
           disabled={onFirst}
           onClick={() => {
             history.push(`/page=${this.props.active - 1}`);
-            this.props.setActive(this.props.active - 1);
           }}
         />
         {this.createItems()}
@@ -28,7 +27,6 @@ class PaginationBar extends React.Component {
           disabled={onLast}
           onClick={() => {
             history.push(`/page=${this.props.active + 1}`);
-            this.props.setActive(this.props.active + 1);
           }}
         />
       </Pagination>
@@ -56,7 +54,6 @@ class PaginationBar extends React.Component {
               key={i}
               active={i === this.props.active}
               onClick={() => {
-                this.props.setActive(i);
                 history.push(`/page=${i}`);
               }}
             >

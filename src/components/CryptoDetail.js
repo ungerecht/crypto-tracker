@@ -12,6 +12,7 @@ import {
   ListGroup,
 } from "react-bootstrap";
 import { upIcon, downIcon } from "../icons";
+import { formatPercentage, formatSupply } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import "../styles/CryptoDetail.css";
 
@@ -191,19 +192,5 @@ const renderData = (coin) => {
 };
 
 const renderDataItem = () => {};
-
-const formatPercentage = (data) => {
-  if (data) {
-    return parseFloat(data).toFixed(2) + "%";
-  }
-  return "?%";
-};
-
-const formatSupply = (data) => {
-  if (data) {
-    return data.toLocaleString(undefined, { maximumFractionDigits: 0 });
-  }
-  return "?";
-};
 
 export default CryptoDetail;

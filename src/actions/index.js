@@ -32,9 +32,7 @@ export const fetchCoins = () => async (dispatch) => {
 
 export const fetchMarket = (page) => async (dispatch) => {
   const response = await coinsmarket(page);
-  const coins = formatCoins(response.data);
-  dispatch({ type: FETCH_MARKET, payload: coins });
-  window.scroll(0, 0);
+  dispatch({ type: FETCH_MARKET, payload: response.data });
 };
 
 export const fetchCoinDetail = (id) => async (dispatch) => {
