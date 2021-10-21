@@ -1,5 +1,7 @@
 import coinslist from "../apis/coinslist";
 import coinsmarket from "../apis/coinsmarket";
+import coinsdetail from "../apis/coinsdetail";
+import coinvolume from "../apis/coinvolume";
 import { formatCoins } from "../helpers";
 import {
   SIGN_IN,
@@ -7,6 +9,7 @@ import {
   FETCH_COINS,
   SET_ACTIVE,
   FETCH_MARKET,
+  FETCH_COIN_DETAIL,
 } from "./types";
 
 export const signIn = (userId) => {
@@ -23,7 +26,6 @@ export const signOut = () => {
 };
 
 export const fetchCoins = () => async (dispatch) => {
-  console.log("fetching coins");
   const response = await coinslist.get();
   dispatch({ type: FETCH_COINS, payload: response.data });
 };
@@ -33,6 +35,13 @@ export const fetchMarket = (page) => async (dispatch) => {
   const coins = formatCoins(response.data);
   dispatch({ type: FETCH_MARKET, payload: coins });
   window.scroll(0, 0);
+};
+
+export const fetchCoinDetail = (id) => async (dispatch) => {
+  const response = await coinsdetail(id);
+  const volume = await coinvolume(id);
+  response.data.volume_24h = volume.data.total_volumes[0][1];
+  dispatch({ type: FETCH_COIN_DETAIL, payload: response.data });
 };
 
 export const setActive = (active) => {

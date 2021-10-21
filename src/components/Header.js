@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container, Col, Row } from "react-bootstrap";
+import { Navbar, Nav, Container, Col } from "react-bootstrap";
 import GoogleAuth from "./GoogleAuth";
 import SearchBar from "./SearchBar";
 import "../styles/Header.css";

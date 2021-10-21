@@ -2,12 +2,12 @@ import { formatCurrency } from "@coingecko/cryptoformat";
 
 export const formatCoins = (coins) => {
   for (let i = 0; i < coins.length; i++) {
-    formatCoin(coins[i]);
+    formatCoinMarket(coins[i]);
   }
   return coins;
 };
 
-const formatCoin = (coin) => {
+export const formatCoinMarket = (coin) => {
   //make symbol uppercase
   coin.symbol = coin.symbol.toUpperCase();
 

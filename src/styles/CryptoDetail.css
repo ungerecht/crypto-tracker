@@ -1,0 +1,11 @@
+span.range-text {
+  font-size: 0.8em;
+}
+
+.data-label {
+  font-size: 0.875em;
+}
+
+div.price-column {
+  max-width: 500px;
+}

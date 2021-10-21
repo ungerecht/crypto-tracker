@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchMarket, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
-import { Container, Table, Col, Row } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { starIcon } from "../icons";
 import "../styles/CryptoList.css";
@@ -65,16 +66,21 @@ class CryptoList extends React.Component {
                 {coin.market_cap_rank}
               </td>
               <td>
-                <div className="d-flex align-items-center">
-                  <img
-                    src={coin.image}
-                    width="20px"
-                    alt={coin.name + " icon"}
-                    className="me-3"
-                  />
-                  <strong className="col-3 me-5">{coin.name}</strong>
-                  <small className="col-1 ms-2">{coin.symbol}</small>
-                </div>
+                <Link
+                  to={`/coin/${coin.id}`}
+                  className="text-decoration-none text-black"
+                >
+                  <div className="d-flex align-items-center">
+                    <img
+                      src={coin.image}
+                      width="20px"
+                      alt={coin.name + " icon"}
+                      className="me-3"
+                    />
+                    <strong className="col-3 me-5">{coin.name}</strong>
+                    <small className="col-1 ms-2">{coin.symbol}</small>
+                  </div>
+                </Link>
               </td>
               <td className="text-end" width={120}>
                 {coin.current_price}
