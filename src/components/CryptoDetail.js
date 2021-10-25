@@ -286,7 +286,11 @@ const renderData = (coin) => {
               coin.market_data.market_cap.usd,
               true
             )}
-            {renderDataItem("24 Hour Trading Volume", coin.volume_24h, true)}
+            {renderDataItem(
+              "24 Hour Trading Volume",
+              coin.chart.total_volumes.at(-1)[1],
+              true
+            )}
             {renderDataItem(
               "Fully Diluted Valuation",
               coin.market_data.fully_diluted_valuation.usd,

@@ -1,7 +1,7 @@
 import coinslist from "../apis/coinslist";
 import coinsmarket from "../apis/coinsmarket";
 import coinsdetail from "../apis/coinsdetail";
-import coinvolume from "../apis/coinvolume";
+import coinchart from "../apis/coinchart";
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -36,8 +36,8 @@ export const fetchMarket = (page) => async (dispatch) => {
 
 export const fetchCoinDetail = (id) => async (dispatch) => {
   const response = await coinsdetail(id);
-  const volume = await coinvolume(id);
-  response.data.volume_24h = volume.data.total_volumes[0][1];
+  const chart = await coinchart(id);
+  response.data.chart = chart.data;
   dispatch({ type: FETCH_COIN_DETAIL, payload: response.data });
 };
 
