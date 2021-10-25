@@ -1,11 +1,19 @@
-span.range-text {
+.range-text,
+.tags-text,
+.list-group-item,
+a.links-button,
+div.links-button > button {
   font-size: 0.8em;
 }
 
-.data-label {
-  font-size: 0.875em;
+.percentage-badge {
+  font-size: 14px;
 }
 
-div.price-column {
-  max-width: 500px;
+.range-bar {
+  max-width: 400px;
+}
+
+.bi-star:hover {
+  color: gold;
 }

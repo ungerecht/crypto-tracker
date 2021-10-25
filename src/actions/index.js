@@ -2,7 +2,6 @@ import coinslist from "../apis/coinslist";
 import coinsmarket from "../apis/coinsmarket";
 import coinsdetail from "../apis/coinsdetail";
 import coinvolume from "../apis/coinvolume";
-import { formatCoins } from "../helpers";
 import {
   SIGN_IN,
   SIGN_OUT,
