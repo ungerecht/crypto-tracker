@@ -5,7 +5,7 @@ import { fetchCoinDetail } from "../actions";
 import Stats from "./Stats";
 import Info from "./Info";
 import Chart from "./Chart";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import "../styles/CryptoDetail.css";
 
 const CryptoDetail = (props) => {
@@ -33,11 +33,28 @@ const CryptoDetail = (props) => {
             <Chart coin={coin}></Chart>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <Card className="mt-3 bg-light" border="light">
+              <Card.Body>
+              <Card.Title className="fw-bold">About {coin.name}</Card.Title>
+                <div className="px-3">
+                  <span className="about-text p-3">{htmlDecode(coin.description.en)}</span>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     );
   } else {
     return <div></div>;
   }
 };
+
+const htmlDecode = (input) => {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
 
 export default CryptoDetail;

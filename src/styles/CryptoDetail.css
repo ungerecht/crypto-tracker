@@ -2,7 +2,8 @@
 .tags-text,
 .list-group-item,
 a.links-button,
-div.links-button > button {
+div.links-button > button,
+.about-text{
   font-size: 0.8em;
 }
 

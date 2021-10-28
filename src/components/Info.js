@@ -10,7 +10,15 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 
-import { upIcon, downIcon, starIcon } from "../icons";
+import {
+  upIcon,
+  downIcon,
+  starIcon,
+  codeIcon,
+  peopleIcon,
+  linkIcon,
+  globeIcon,
+} from "../icons";
 import { formatPercentage } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
@@ -105,18 +113,19 @@ const renderLinks = (coin) => {
       <ButtonToolbar className="mt-3">
         {renderLink(
           coin.links.homepage[0],
-          stripDomain(coin.links.homepage[0])
+          stripDomain(coin.links.homepage[0]),
+          linkIcon
         )}
         {renderExplorers(coin)}
         {renderCommunities(coin.links)}
-        {renderLink(coin.links.repos_url.github[0], "Source Code")}
+        {renderLink(coin.links.repos_url.github[0], "Source Code", codeIcon)}
       </ButtonToolbar>
       {renderTags(coin.categories)}
     </Col>
   );
 };
 
-const renderLink = (link, name) => {
+const renderLink = (link, name, icon) => {
   if (link) {
     return (
       <Button
@@ -126,6 +135,7 @@ const renderLink = (link, name) => {
         href={link}
         target="_blank"
       >
+        {icon}
         {name}
       </Button>
     );
@@ -154,7 +164,7 @@ const renderCommunities = (links) => {
       <Dropdown.Item
         key="facebook"
         variant="secondary"
-        className="me-1 mb-1 links-button"
+        className="links-button"
         href={`https://www.facebook.com/${links.facebook_username}`}
         target="_blank"
       >
@@ -168,7 +178,7 @@ const renderCommunities = (links) => {
       <Dropdown.Item
         key="twitter"
         variant="secondary"
-        className="me-1 mb-1 links-button"
+        className="links-button"
         href={`https://www.twitter.com/${links.twitter_screen_name}`}
         target="_blank"
       >
@@ -182,7 +192,7 @@ const renderCommunities = (links) => {
       <Dropdown.Item
         key="forum"
         variant="secondary"
-        className="me-1 mb-1 links-button"
+        className="links-button"
         href={links.official_forum_url[0]}
         target="_blank"
       >
@@ -194,7 +204,7 @@ const renderCommunities = (links) => {
     return (
       <DropdownButton
         variant="secondary"
-        title="Communities"
+        title={<span>{peopleIcon}Communities</span>}
         size="sm"
         className="mb-1 me-1 links-button"
       >
@@ -226,7 +236,7 @@ const renderExplorers = (coin) => {
     return (
       <DropdownButton
         variant="secondary"
-        title="Explorers"
+        title={<span>{globeIcon}Explorers</span>}
         size="sm"
         className="mb-1 me-1 links-button"
       >
