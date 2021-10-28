@@ -156,8 +156,8 @@ class CryptoList extends React.Component {
 
   render() {
     return (
-      <Container className="pt-5" fluid="lg">
-        <Table responsive hover>
+      <Container className="pt-5" fluid="xl">
+        <Table responsive="xl" hover>
           {this.renderHead()}
           {this.renderBody()}
         </Table>
