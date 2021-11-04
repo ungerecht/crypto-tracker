@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchMarket, setActive } from "../actions";
+import { fetchPage, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
 import { Container, Table } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -18,20 +18,20 @@ class CryptoList extends React.Component {
       if (page !== this.props.active) {
         //url page is not active
         this.props.setActive(page);
-        this.props.fetchMarket(page);
+        this.props.fetchPage(page);
       } else {
         //url page exists and is active
-        this.props.fetchMarket(this.props.active);
+        this.props.fetchPage(this.props.active);
       }
     } else {
       //home page
-      this.props.fetchMarket(this.props.active);
+      this.props.fetchPage(this.props.active);
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.active !== this.props.active) {
-      this.props.fetchMarket(this.props.active);
+      this.props.fetchPage(this.props.active);
     }
   }
 
@@ -68,7 +68,7 @@ class CryptoList extends React.Component {
   renderBody() {
     return (
       <tbody>
-        {this.props.coins.map((coin) => {
+        {this.props.page.map((coin) => {
           return (
             <tr key={coin.id} height={68}>
               <td>
@@ -168,7 +168,7 @@ class CryptoList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { active: state.page.active, coins: state.page.coins };
+  return { active: state.page.active, page: state.page.page };
 };
 
-export default connect(mapStateToProps, { fetchMarket, setActive })(CryptoList);
+export default connect(mapStateToProps, { fetchPage, setActive })(CryptoList);

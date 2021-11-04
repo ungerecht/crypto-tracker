@@ -1,17 +1,14 @@
-import { FETCH_COINS, SET_ACTIVE, FETCH_MARKET } from "../actions/types";
+import { SET_ACTIVE, FETCH_PAGE } from "../actions/types";
 
 const INITIAL_STATE = {
   active: 1,
-  number: 0,
-  coins: [],
+  page: [],
 };
 
 const pageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FETCH_COINS:
-      return { ...state, number: action.payload.length };
-    case FETCH_MARKET:
-      return { ...state, coins: action.payload };
+    case FETCH_PAGE:
+      return { ...state, page: action.payload };
     case SET_ACTIVE:
       return { ...state, active: action.payload };
     default:

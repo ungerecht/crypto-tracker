@@ -6,7 +6,7 @@ import {
   SIGN_OUT,
   FETCH_COINS,
   SET_ACTIVE,
-  FETCH_MARKET,
+  FETCH_PAGE,
   FETCH_COIN_DETAIL,
 } from "./types";
 
@@ -24,11 +24,12 @@ export const signOut = () => {
 };
 
 export const fetchCoins = () => async (dispatch) => {
+  console.log("fetching coins");
   const response = await coingecko.get("/list");
   dispatch({ type: FETCH_COINS, payload: response.data });
 };
 
-export const fetchMarket = (page) => async (dispatch) => {
+export const fetchPage = (page) => async (dispatch) => {
   const response = await coingecko.get("/markets", {
     params: {
       vs_currency: "usd",
@@ -39,7 +40,7 @@ export const fetchMarket = (page) => async (dispatch) => {
       price_change_percentage: "24h,7d",
     },
   });
-  dispatch({ type: FETCH_MARKET, payload: response.data });
+  dispatch({ type: FETCH_PAGE, payload: response.data });
 };
 
 export const fetchCoinDetail = (id) => async (dispatch) => {

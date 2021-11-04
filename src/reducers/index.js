@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import pageReducer from "./pageReducer";
-import coinReducer from "./coinReducer";
+import coinsReducer from "./coinsReducer";
 
 export default combineReducers({
   auth: authReducer,
   page: pageReducer,
-  coin: coinReducer,
+  coins: coinsReducer,
 });

@@ -1,15 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setActive, fetchCoins } from "../actions";
+import { setActive } from "../actions";
 import { Pagination } from "react-bootstrap";
 import history from "../history";
 import "../styles/PaginationBar.css";
 
 class PaginationBar extends React.Component {
-  componentDidMount() {
-    this.props.fetchCoins();
-  }
-
   createPagination = () => {
     const onFirst = this.props.active === 1;
     const onLast =
@@ -78,10 +74,8 @@ class PaginationBar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     active: state.page.active,
-    numberOfCoins: state.page.number,
+    numberOfCoins: state.coins.number,
   };
 };
 
-export default connect(mapStateToProps, { fetchCoins, setActive })(
-  PaginationBar
-);
+export default connect(mapStateToProps, { setActive })(PaginationBar);
