@@ -9,7 +9,7 @@ class PaginationBar extends React.Component {
   createPagination = () => {
     const onFirst = this.props.active === 1;
     const onLast =
-      this.props.active === Math.ceil(this.props.numberOfCoins / 20);
+      this.props.active === Math.ceil(this.props.numberOfCoins / 50);
     return (
       <Pagination size="sm">
         <Pagination.Prev
@@ -31,7 +31,7 @@ class PaginationBar extends React.Component {
 
   createItems = () => {
     let items = [];
-    const amountOfPages = Math.ceil(this.props.numberOfCoins / 20);
+    const amountOfPages = Math.ceil(this.props.numberOfCoins / 50);
     for (let i = 1; i <= amountOfPages; i++) {
       if (
         i === 1 ||

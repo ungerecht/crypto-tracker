@@ -34,7 +34,7 @@ export const fetchPage = (page) => async (dispatch) => {
     params: {
       vs_currency: "usd",
       order: "market_cap_desc",
-      per_page: 20,
+      per_page: 50,
       page,
       sparkline: true,
       price_change_percentage: "24h,7d",
