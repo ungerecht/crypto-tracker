@@ -25,10 +25,7 @@ const SearchBar = () => {
       name.toLowerCase().startsWith(query.toLowerCase())
     );
 
-    //sort menu items, only required because "Bitcoin Volatility Token" is somehow before "Bitcoin" by default
-    options.sort((a, b) =>
-      a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
-    );
+    options.sort((a, b) => a.name.length - b.name.length);
 
     setOptions(options);
     setIsLoading(false);
