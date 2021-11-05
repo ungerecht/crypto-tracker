@@ -55,11 +55,16 @@ const renderPrice = (coin) => {
           </span>
           <Badge
             className="p-2 ms-3"
-            style={{
-              background:
-                coin.market_data.price_change_percentage_24h >= 0
-                  ? "limegreen"
-                  : "red",
+            ref={(badge) => {
+              if (badge) {
+                badge.style.setProperty(
+                  "background-color",
+                  coin.market_data.price_change_percentage_24h >= 0
+                    ? "limegreen"
+                    : "red",
+                  "important"
+                );
+              }
             }}
           >
             <span className="d-flex align-items-center percentage-badge">
