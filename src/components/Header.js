@@ -7,9 +7,7 @@ import "../styles/Header.css";
 const Header = () => {
   return (
     <div className="bg-dark py-3">
-      <Container fluid="lg" className="d-flex justify-content-end">
-        <GoogleAuth className="" />
-      </Container>
+      <Container fluid="lg" className="d-flex justify-content-end"></Container>
       <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
         <Container fluid="lg" className="flex-wrap">
           <Navbar.Brand className="me-4" href="/">
