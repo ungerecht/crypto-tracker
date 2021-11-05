@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPage, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
-import { Container, Table } from "react-bootstrap";
+import { Container, Table, Placeholder } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { starIcon } from "../icons";
 import { formatPercentage, formatSupply } from "../helpers";
@@ -22,10 +22,7 @@ const CryptoList = (props) => {
 
   return (
     <Container className="pt-5" fluid="xl">
-      <Table responsive="xl" hover>
-        {renderHead()}
-        {renderBody(page)}
-      </Table>
+      {page.length > 0 ? renderTable(page) : renderLoading()}
       <PaginationBar />
     </Container>
   );
@@ -47,6 +44,31 @@ const getPageData = (pageId, active, dispatch) => {
     //home page
     dispatch(fetchPage(active));
   }
+};
+
+const renderLoading = () => {
+  return <div className="mt-5">{renderPlaceholders()}</div>;
+};
+
+const renderPlaceholders = () => {
+  let placeholders = [];
+  for (let i = 0; i <= 50; i++) {
+    placeholders.push(
+      <Placeholder as="div" animation="glow" className="py-3">
+        <Placeholder xs={12} size="lg" />
+      </Placeholder>
+    );
+  }
+  return placeholders;
+};
+
+const renderTable = (page) => {
+  return (
+    <Table responsive="xl" hover>
+      {renderHead()}
+      {renderBody(page)}
+    </Table>
+  );
 };
 
 const renderHead = () => {
