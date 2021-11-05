@@ -24,7 +24,6 @@ export const signOut = () => {
 };
 
 export const fetchCoins = () => async (dispatch) => {
-  console.log("fetching coins");
   const response = await coingecko.get("/list");
   dispatch({ type: FETCH_COINS, payload: response.data });
 };
