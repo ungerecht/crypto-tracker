@@ -21,7 +21,7 @@ const CryptoList = (props) => {
 
   return (
     <Container className="pt-5" fluid="xl">
-      {page.length > 0 ? renderTable(page) : renderLoading()}
+      {renderTable(page)}
       <PaginationBar />
     </Container>
   );
@@ -45,29 +45,47 @@ const getPageData = (pageId, active, dispatch) => {
   }
 };
 
-const renderLoading = () => {
-  return <div className="mt-5">{renderPlaceholders()}</div>;
-};
-
-const renderPlaceholders = () => {
+const renderTablePlaceholders = () => {
   let placeholders = [];
-  for (let i = 0; i <= 50; i++) {
+  for (let i = 0; i < 50; i++) {
     placeholders.push(
-      <Placeholder as="div" animation="glow" className="py-3">
-        <Placeholder xs={12} size="lg" />
-      </Placeholder>
+      <>
+        <div style={{ height: "68px" }} className=" d-flex align-items-center">
+          <Placeholder
+            key={`row ${i}`}
+            as="div"
+            animation="glow"
+            style={{ height: "100%", width: "100%" }}
+            className="d-flex align-items-center mx-2"
+          >
+            <Placeholder size="lg" style={{ width: "100%" }} />
+          </Placeholder>
+        </div>
+        <hr className="m-0" />
+      </>
     );
   }
   return placeholders;
 };
 
 const renderTable = (page) => {
-  return (
-    <Table responsive="xl" hover>
-      {renderHead()}
-      {renderBody(page)}
-    </Table>
-  );
+  if (page.length > 0) {
+    return (
+      <Table responsive="xl" hover>
+        {renderHead()}
+        {renderBody(page)}
+      </Table>
+    );
+  } else {
+    return (
+      <>
+        <Table responsive="xl" className="mb-0">
+          {renderHead()}
+        </Table>
+        {renderTablePlaceholders()}
+      </>
+    );
+  }
 };
 
 const renderHead = () => {
@@ -78,22 +96,24 @@ const renderHead = () => {
           #
         </th>
         <th>Coin</th>
-        <th width={95} className="text-end px-3">
+        <th width={111} className="text-end px-3">
           Price
         </th>
-        <th width={61} className="text-end px-3">
+        <th width={83} className="text-end px-3">
           24h
         </th>
-        <th width={61} className="text-end px-3">
+        <th width={83} className="text-end px-3">
           7d
         </th>
-        <th width={134} className="text-end px-3">
+        <th width={150} className="text-end px-3">
           Market Cap
         </th>
-        <th width={171} className="text-end px-3">
+        <th width={187} className="text-end px-3">
           Circulating Supply
         </th>
-        <th className="text-center">Last 7 Days</th>
+        <th width={151} className="text-center">
+          Last 7 Days
+        </th>
       </tr>
     </thead>
   );
@@ -157,7 +177,7 @@ const renderBody = (page) => {
                 {coin.symbol.toUpperCase()}
               </small>
             </td>
-            <td width={135}>
+            <td>
               <Sparklines
                 data={coin.sparkline_in_7d.price}
                 svgHeight={50}
