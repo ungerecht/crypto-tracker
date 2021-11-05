@@ -13,7 +13,6 @@ import {
 import {
   upIcon,
   downIcon,
-  starIcon,
   codeIcon,
   peopleIcon,
   linkIcon,
@@ -39,12 +38,6 @@ const renderInfo = (coin) => {
         />
         <h2 className="mb-1 text-nowrap">{coin.name}</h2>
         <h4 className="mb-0 mx-2 text-muted">{coin.symbol.toUpperCase()}</h4>
-        <Button
-          variant="outline-dark"
-          className="bg-light text-dark d-flex p-2 "
-        >
-          {starIcon}
-        </Button>
       </span>
       {renderPrice(coin)}
       {renderLinks(coin)}

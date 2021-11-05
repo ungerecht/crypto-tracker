@@ -1,6 +1,5 @@
 import React from "react";
 import { Navbar, Nav, Container, Col } from "react-bootstrap";
-import GoogleAuth from "./GoogleAuth";
 import SearchBar from "./SearchBar";
 import "../styles/Header.css";
 
@@ -21,7 +20,6 @@ const Header = () => {
             <Nav>
               <Nav.Link href="/">Cryptocurrencies</Nav.Link>
               <Nav.Link>Exchanges</Nav.Link>
-              <Nav.Link>Watchlist</Nav.Link>
             </Nav>
           </Navbar.Collapse>
           <Col className="justify-content-center mx-2 my-2 my-md-0">

@@ -6,7 +6,6 @@ import { fetchPage, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
 import { Container, Table, Placeholder } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
-import { starIcon } from "../icons";
 import { formatPercentage, formatSupply } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import "../styles/CryptoList.css";
@@ -75,7 +74,6 @@ const renderHead = () => {
   return (
     <thead className="sticky-top">
       <tr>
-        <th width={32}></th>
         <th width={39} className="text-center">
           #
         </th>
@@ -107,11 +105,6 @@ const renderBody = (page) => {
       {page.map((coin) => {
         return (
           <tr key={coin.id} height={68}>
-            <td>
-              <div className="d-flex align-items-center justify-content-center">
-                {starIcon}
-              </div>
-            </td>
             <td className="text-center">{coin.market_cap_rank}</td>
             <td>
               <Link
