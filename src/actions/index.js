@@ -36,7 +36,7 @@ export const fetchPage = (page) => async (dispatch) => {
       per_page: 50,
       page,
       sparkline: true,
-      price_change_percentage: "24h,7d",
+      price_change_percentage: "24h,7d,1h",
     },
   });
   dispatch({ type: FETCH_PAGE, payload: response.data });
