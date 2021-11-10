@@ -22,6 +22,7 @@ import { formatPercentage } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
 const Info = ({ coin }) => {
+  console.log(coin);
   return renderInfo(coin);
 };
 
@@ -213,9 +214,9 @@ const renderCommunities = (links) => {
 };
 
 const renderExplorers = (coin) => {
-  //filter empty values
+  //filter empty and null values
   const filtered = coin.links.blockchain_site.filter((explorer) => {
-    return explorer.length !== 0;
+    return explorer && explorer.length !== 0;
   });
   const explorers = filtered.map((explorer) => {
     return (
