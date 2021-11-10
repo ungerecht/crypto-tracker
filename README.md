@@ -17,15 +17,15 @@ CoinGecko API
 Redux
 
 ### Charts
--react-highcharts
--react-sparklines
+react-highcharts<br/>
+react-sparklines
 
 ### Tables
--react-bootstrap-table-next
+react-bootstrap-table-next
 
 ### Styling
--react-bootstrap V2.0.2
--Bootstrap V5.1.3
+react-bootstrap V2.0.2<br/>
+Bootstrap V5.1.3
 
 ### Icons
 Bootstrap Icon Library
