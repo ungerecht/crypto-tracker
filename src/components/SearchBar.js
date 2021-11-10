@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchCoins } from "../actions";
 import history from "../history";
-import { searchIcon } from "../icons";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "../styles/SearchBar.css";
 
