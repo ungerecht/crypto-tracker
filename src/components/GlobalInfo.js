@@ -52,7 +52,7 @@ const GlobalInfo = () => {
       </div>
     );
   } else {
-    return <div classname="py-1" style={{ height: "26px" }}></div>;
+    return <div className="py-1" style={{ height: "26px" }}></div>;
   }
 };
 
