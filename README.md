@@ -3,7 +3,7 @@
 DEVELOPMENT IN PROGRESS
 
 ## Description
-This app was created as a portfolio project and is loosely based on [CoinMarketCap.com](https://coinmarketcap.com)
+This app was created as a portfolio project and is a clone of [CoinGecko.com](https://coingecko.com)
 
 ## Technologies
 
@@ -13,8 +13,19 @@ create-react-app
 ### Cryptocurrency Data
 CoinGecko API
 
+### State Management
+Redux
+
+### Charts
+-react-highcharts
+-react-sparklines
+
+### Tables
+-react-bootstrap-table-next
+
 ### Styling
-react-bootstrap & Bootstrap
+-react-bootstrap V2.0.2
+-Bootstrap V5.1.3
 
 ### Icons
 Bootstrap Icon Library
