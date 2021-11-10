@@ -1,5 +1,6 @@
 import moment from "moment";
 import coingecko from "../apis/coingecko";
+import coingeckoglobal from "../apis/coingeckoglobal";
 import { concat } from "lodash";
 import {
   SIGN_IN,
@@ -8,7 +9,13 @@ import {
   SET_ACTIVE,
   FETCH_PAGE,
   FETCH_COIN_DETAIL,
+  FETCH_GLOBAL_DATA,
 } from "./types";
+
+export const fetchGlobalData = () => async (dispatch) => {
+  const response = await coingeckoglobal.get();
+  dispatch({ type: FETCH_GLOBAL_DATA, payload: response.data });
+};
 
 export const signIn = (userId) => {
   return {

@@ -1,13 +1,18 @@
 import React from "react";
 import { Navbar, Nav, Container, Col } from "react-bootstrap";
 import SearchBar from "./SearchBar";
+import GoogleAuth from "./GoogleAuth";
+import GlobalInfo from "./GlobalInfo";
 import "../styles/Header.css";
 
 const Header = () => {
   return (
-    <div className="bg-dark py-3">
-      <Container fluid="lg" className="d-flex justify-content-end"></Container>
-      <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
+    <div className="py-3">
+      <Container fluid="lg" className="d-flex justify-content-end">
+        <GoogleAuth />
+      </Container>
+      <hr className="my-2" />
+      <Navbar collapseOnSelect expand="sm">
         <Container fluid="lg" className="flex-wrap">
           <Navbar.Brand className="me-4" href="/">
             Crypto Tracker
@@ -27,6 +32,11 @@ const Header = () => {
           </Col>
         </Container>
       </Navbar>
+      <hr className="my-2" />
+      <Container fluid="lg">
+        <GlobalInfo />
+      </Container>
+      <hr className="my-2" />
     </div>
   );
 };
