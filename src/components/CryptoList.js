@@ -4,13 +4,103 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPage, setActive } from "../actions";
 import PaginationBar from "./PaginationBar";
-import { Container, Table, Placeholder } from "react-bootstrap";
+import { Container, Placeholder } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { formatPercentage, formatSupply } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import "../styles/CryptoList.css";
+import BootstrapTable from "react-bootstrap-table-next";
 
 const CryptoList = (props) => {
+  const columns = [
+    {
+      dataField: "market_cap_rank",
+      text: "#",
+      sort: true,
+      headerStyle: {
+        width: "40px",
+      },
+    },
+    {
+      dataField: "name",
+      text: "Coin",
+      sort: true,
+      formatter: nameFormatter,
+      classes: "name-block",
+      headerClasses: "ps-4",
+    },
+    {
+      dataField: "current_price",
+      text: "Price",
+      sort: true,
+      formatter: priceFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "price_change_percentage_1h_in_currency",
+      text: "1d",
+      sort: true,
+      formatter: percentageFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "price_change_percentage_24h_in_currency",
+      text: "24h",
+      sort: true,
+      formatter: percentageFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "price_change_percentage_7d_in_currency",
+      text: "7d",
+      sort: true,
+      formatter: percentageFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "market_cap",
+      text: "Market Cap",
+      sort: true,
+      formatter: priceFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "circulating_supply",
+      text: "Circulating Supply",
+      sort: true,
+      formatter: supplyFormatter,
+      classes: "text-end",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "sparkline_7d",
+      text: "Last 7 Days",
+      sort: true,
+      sortFunc: (a, b, order, dataField, rowA, rowB) => {
+        if (order === "asc")
+          return (
+            rowA.price_change_percentage_7d_in_currency -
+            rowB.price_change_percentage_7d_in_currency
+          );
+        else
+          return (
+            rowB.price_change_percentage_7d_in_currency -
+            rowA.price_change_percentage_7d_in_currency
+          );
+      },
+      formatter: chartFormatter,
+      headerClasses: "text-center px-3",
+      headerStyle: {
+        width: "151px",
+      },
+    },
+  ];
+
   const { page, active } = useSelector((state) => state.page);
   const dispatch = useDispatch();
   const pageId = props.match.params.page;
@@ -21,9 +111,84 @@ const CryptoList = (props) => {
 
   return (
     <Container className="pt-5" fluid="xl">
-      {renderTable(page)}
+      <BootstrapTable
+        bootstrap4
+        keyField="name"
+        data={page}
+        columns={columns}
+        hover={true}
+        bordered={false}
+        wrapperClasses="table-responsive-lg"
+        headerWrapperClasses="sticky-top"
+        rowStyle={{ height: "68px" }}
+        noDataIndication={renderTablePlaceholders()}
+      />
       <PaginationBar />
     </Container>
+  );
+};
+
+const nameFormatter = (cell, row) => {
+  return (
+    <Link to={`/coin/${row.id}`} className="text-decoration-none text-black">
+      <div className="d-flex align-items-center">
+        <img
+          src={row.image}
+          width="20px"
+          alt={cell + " icon"}
+          className="me-3"
+        />
+        <strong className="col-3 me-5 d-none d-lg-inline">{cell}</strong>
+        <strong className="d-inline d-lg-none">
+          {row.symbol.toUpperCase()}
+        </strong>
+        <small className="ms-2 d-none d-lg-inline">
+          {row.symbol.toUpperCase()}
+        </small>
+      </div>
+    </Link>
+  );
+};
+
+const priceFormatter = (cell) => {
+  return formatCurrency(cell, "USD", "en");
+};
+
+const percentageFormatter = (cell) => {
+  return (
+    <div
+      style={{
+        color: cell >= 0 ? "limegreen" : "red",
+      }}
+    >
+      {formatPercentage(cell)}
+    </div>
+  );
+};
+
+const supplyFormatter = (cell, row) => {
+  return formatSupply(cell);
+};
+
+const chartFormatter = (cell, row) => {
+  return (
+    <Link to={`/coin/${row.id}`} className="text-decoration-none text-black">
+      <Sparklines
+        data={row.sparkline_in_7d.price}
+        svgHeight={50}
+        svgWidth={135}
+      >
+        <SparklinesLine
+          color={
+            row.sparkline_in_7d.price[0] <=
+            row.sparkline_in_7d.price[row.sparkline_in_7d.price.length - 1]
+              ? "limegreen"
+              : "red"
+          }
+          style={{ fill: "none" }}
+        />
+      </Sparklines>
+    </Link>
   );
 };
 
@@ -49,10 +214,9 @@ const renderTablePlaceholders = () => {
   let placeholders = [];
   for (let i = 0; i < 50; i++) {
     placeholders.push(
-      <>
+      <React.Fragment key={`row ${i}`}>
         <div style={{ height: "68px" }} className=" d-flex align-items-center">
           <Placeholder
-            key={`row ${i}`}
             as="div"
             animation="glow"
             style={{ height: "100%", width: "100%" }}
@@ -62,145 +226,10 @@ const renderTablePlaceholders = () => {
           </Placeholder>
         </div>
         <hr className="m-0" />
-      </>
+      </React.Fragment>
     );
   }
   return placeholders;
-};
-
-const renderTable = (page) => {
-  if (page.length > 0) {
-    return (
-      <Table responsive="xl" hover>
-        {renderHead()}
-        {renderBody(page)}
-      </Table>
-    );
-  } else {
-    return (
-      <>
-        <Table responsive="xl" className="mb-0">
-          {renderHead()}
-        </Table>
-        {renderTablePlaceholders()}
-      </>
-    );
-  }
-};
-
-const renderHead = () => {
-  return (
-    <thead className="sticky-top">
-      <tr>
-        <th width={39} className="text-center">
-          #
-        </th>
-        <th>Coin</th>
-        <th width={111} className="text-end px-3">
-          Price
-        </th>
-        <th width={83} className="text-end px-3">
-          24h
-        </th>
-        <th width={83} className="text-end px-3">
-          7d
-        </th>
-        <th width={150} className="text-end px-3">
-          Market Cap
-        </th>
-        <th width={187} className="text-end px-3">
-          Circulating Supply
-        </th>
-        <th width={151} className="text-center">
-          Last 7 Days
-        </th>
-      </tr>
-    </thead>
-  );
-};
-
-const renderBody = (page) => {
-  return (
-    <tbody>
-      {page.map((coin) => {
-        return (
-          <tr key={coin.id} height={68}>
-            <td className="text-center">{coin.market_cap_rank}</td>
-            <td>
-              <Link
-                to={`/coin/${coin.id}`}
-                className="text-decoration-none text-black"
-              >
-                <div className="d-flex align-items-center">
-                  <img
-                    src={coin.image}
-                    width="20px"
-                    alt={coin.name + " icon"}
-                    className="me-3"
-                  />
-                  <strong className="col-3 me-5">{coin.name}</strong>
-                  <small className="col-1 ms-2">
-                    {coin.symbol.toUpperCase()}
-                  </small>
-                </div>
-              </Link>
-            </td>
-            <td className="text-end px-3">
-              {formatCurrency(coin.current_price, "USD", "en")}
-            </td>
-            <td
-              className="text-end px-3"
-              style={{
-                color:
-                  coin.price_change_percentage_24h >= 0 ? "limegreen" : "red",
-              }}
-            >
-              {formatPercentage(coin.price_change_percentage_24h)}
-            </td>
-            <td
-              className="text-end px-3"
-              style={{
-                color:
-                  coin.price_change_percentage_7d_in_currency >= 0
-                    ? "limegreen"
-                    : "red",
-              }}
-            >
-              {formatPercentage(coin.price_change_percentage_7d_in_currency)}
-            </td>
-            <td className="text-end px-3">
-              {formatCurrency(coin.market_cap, "USD", "en")}
-            </td>
-            <td className="text-end px-3">
-              <span>{formatSupply(coin.circulating_supply)}</span>
-              <small className="text-muted ms-1">
-                {coin.symbol.toUpperCase()}
-              </small>
-            </td>
-            <td>
-              <Sparklines
-                data={coin.sparkline_in_7d.price}
-                svgHeight={50}
-                svgWidth={135}
-              >
-                <SparklinesLine
-                  color={
-                    coin.sparkline_in_7d.price[0] <=
-                    coin.sparkline_in_7d.price[
-                      coin.sparkline_in_7d.price.length - 1
-                    ]
-                      ? "limegreen"
-                      : "red"
-                  }
-                  style={{ fill: "none" }}
-                />
-              </Sparklines>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
 };
 
 export default CryptoList;

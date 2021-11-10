@@ -12,3 +12,11 @@ th {
   vertical-align: middle;
   font-size: 0.875em;
 }
+
+.react-bootstrap-table > table {
+  table-layout: auto !important;
+}
+
+.react-bs-table-no-data {
+  padding: 0px !important;
+}
