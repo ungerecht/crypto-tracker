@@ -40,7 +40,8 @@ const GoogleAuth = () => {
     } else if (isSignedIn) {
       return (
         <Button
-          variant="danger"
+          size="sm"
+          variant="outline-danger"
           onClick={() => {
             dispatch(onSignOutClick);
           }}
@@ -52,6 +53,8 @@ const GoogleAuth = () => {
     } else {
       return (
         <Button
+          size="sm"
+          variant="outline-primary"
           onClick={() => {
             dispatch(onSignInClick);
           }}
