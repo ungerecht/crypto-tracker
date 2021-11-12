@@ -42,12 +42,13 @@ const GoogleAuth = () => {
         <Button
           size="sm"
           variant="outline-danger"
+          className="d-flex align-items-center bar-button"
           onClick={() => {
             dispatch(onSignOutClick);
           }}
         >
           {googleIcon}
-          Log Out
+          <div className="ms-1">Log Out</div>
         </Button>
       );
     } else {
@@ -55,11 +56,13 @@ const GoogleAuth = () => {
         <Button
           size="sm"
           variant="outline-primary"
+          className="d-flex align-items-center bar-button"
           onClick={() => {
             dispatch(onSignInClick);
           }}
         >
-          {googleIcon} Log In
+          {googleIcon}
+          <div className="ms-1">Log In</div>
         </Button>
       );
     }
