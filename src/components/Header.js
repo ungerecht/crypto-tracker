@@ -3,13 +3,19 @@ import { Navbar, Nav, Container, Col } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import GoogleAuth from "./GoogleAuth";
 import GlobalInfo from "./GlobalInfo";
+import ThemeButton from "./ThemeButton";
 import "../styles/Header.css";
 
 const Header = () => {
   return (
     <div>
-      <Container fluid="lg" className="d-flex justify-content-end py-3">
+      <Container
+        fluid="lg"
+        className="d-flex justify-content-end py-3"
+        style={{ height: "64px" }}
+      >
         <GoogleAuth />
+        <ThemeButton />
       </Container>
       <hr className="my-0" />
       <Navbar className="py-0">
