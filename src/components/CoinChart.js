@@ -1,15 +1,60 @@
-import React from "react";
-import ReactHighcharts from "react-highcharts/ReactHighstock.src";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
+import { concat } from "lodash";
+import coingecko from "../apis/coingecko";
+import ReactHighcharts from "react-highcharts/ReactHighstock.src";
 import { Card } from "react-bootstrap";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
-const Chart = ({ coin }) => {
+const CoinChart = ({ coin }) => {
+  const [chart, setChart] = useState(null);
+
+  useEffect(() => {
+    const fetchCoinChart = async () => {
+      //to get hourly data from coingecko you have to request data in the range of 90 days
+      const today = moment().unix();
+      const three_m_ago = moment().subtract(90, "days").unix();
+      const six_m_ago = moment().subtract(180, "days").unix();
+
+      const getNowChart = () => {
+        //get chart data for last 3 months to today
+        return coingecko.get(`${coin.id}/market_chart/range`, {
+          params: {
+            vs_currency: "usd",
+            from: three_m_ago,
+            to: today,
+          },
+        });
+      };
+
+      const getPastChart = () => {
+        //get chart data for 6 months ago to 3 months ago
+        return coingecko.get(`${coin.id}/market_chart/range`, {
+          params: {
+            vs_currency: "usd",
+            from: six_m_ago,
+            to: three_m_ago - 1,
+          },
+        });
+      };
+
+      //run both chart calls in parallel
+      let [chart_now, chart_past] = await Promise.all([
+        getNowChart(),
+        getPastChart(),
+      ]);
+
+      //combine chart data prices
+      const chart = concat(chart_past.data.prices, chart_now.data.prices);
+      setChart(chart);
+    };
+    fetchCoinChart();
+  }, [coin]);
+
   const config = {
     yAxis: [
       {
         offset: 20,
-
         labels: {
           formatter: function () {
             return formatCurrency(this.value, "USD", "en", false, true);
@@ -94,7 +139,7 @@ const Chart = ({ coin }) => {
       {
         name: "Price",
         type: "spline",
-        data: coin.chart.prices,
+        data: chart,
       },
     ],
   };
@@ -109,4 +154,4 @@ const Chart = ({ coin }) => {
   );
 };
 
-export default Chart;
+export default CoinChart;

@@ -1,46 +1,42 @@
 import React from "react";
-import { connect } from "react-redux";
-import { setActive } from "../actions";
+import { useSelector } from "react-redux";
 import { Pagination } from "react-bootstrap";
 import history from "../history";
 import "../styles/PaginationBar.css";
 
-class PaginationBar extends React.Component {
-  createPagination = () => {
-    const onFirst = this.props.active === 1;
-    const onLast =
-      this.props.active === Math.ceil(this.props.numberOfCoins / 50);
+const PaginationBar = ({ page }) => {
+  const numberOfCoins = useSelector((state) => state.coins.number);
+
+  const createPagination = () => {
+    const onFirst = page === 1;
+    const onLast = page === Math.ceil(numberOfCoins / 100);
     return (
       <Pagination size="sm">
         <Pagination.Prev
           disabled={onFirst}
           onClick={() => {
-            history.push(`/page=${this.props.active - 1}`);
+            history.push(`/page=${page - 1}`);
           }}
         />
-        {this.createItems()}
+        {createItems()}
         <Pagination.Next
           disabled={onLast}
           onClick={() => {
-            history.push(`/page=${this.props.active + 1}`);
+            history.push(`/page=${page + 1}`);
           }}
         />
       </Pagination>
     );
   };
 
-  createItems = () => {
+  const createItems = () => {
     let items = [];
-    const amountOfPages = Math.ceil(this.props.numberOfCoins / 50);
+    const amountOfPages = Math.ceil(numberOfCoins / 100);
     for (let i = 1; i <= amountOfPages; i++) {
-      if (
-        i === 1 ||
-        i === amountOfPages ||
-        (i >= this.props.active - 5 && i <= this.props.active + 5)
-      ) {
+      if (i === 1 || i === amountOfPages || (i >= page - 5 && i <= page + 5)) {
         if (
-          (i === this.props.active - 5 && i !== 1) ||
-          (i === this.props.active + 5 && i !== amountOfPages)
+          (i === page - 5 && i !== 1) ||
+          (i === page + 5 && i !== amountOfPages)
         ) {
           items = [...items, <Pagination.Ellipsis key={i} disabled />];
         } else {
@@ -48,7 +44,7 @@ class PaginationBar extends React.Component {
             ...items,
             <Pagination.Item
               key={i}
-              active={i === this.props.active}
+              active={i === page}
               onClick={() => {
                 history.push(`/page=${i}`);
               }}
@@ -62,20 +58,9 @@ class PaginationBar extends React.Component {
     return items;
   };
 
-  render() {
-    return (
-      <div className="d-flex justify-content-center">
-        {this.createPagination()}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    active: state.page.active,
-    numberOfCoins: state.coins.number,
-  };
+  return (
+    <div className="d-flex justify-content-center">{createPagination()}</div>
+  );
 };
 
-export default connect(mapStateToProps, { setActive })(PaginationBar);
+export default PaginationBar;

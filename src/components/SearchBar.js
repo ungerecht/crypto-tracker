@@ -10,8 +10,9 @@ import "../styles/SearchBar.css";
 const SearchBar = () => {
   const { coins } = useSelector((state) => state.coins);
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchCoins());
+    if (coins.length === 0) dispatch(fetchCoins());
   }, [dispatch]);
 
   const [isLoading, setIsLoading] = useState(false);

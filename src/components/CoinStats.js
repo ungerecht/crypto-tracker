@@ -3,7 +3,7 @@ import { Col, Row, Card, ListGroup } from "react-bootstrap";
 import { formatSupply } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
-const Stats = ({ coin }) => {
+const CoinStats = ({ coin }) => {
   return renderStats(coin);
 };
 
@@ -14,7 +14,11 @@ const renderStats = (coin) => {
         <Card.Title className="fw-bold">{coin.name} Statistics</Card.Title>
         <ListGroup variant="flush">
           {renderStatsItem("Market Cap", coin.market_data.market_cap.usd, true)}
-          {renderStatsItem("24 Hour Trading Volume", coin.volume_24h, true)}
+          {renderStatsItem(
+            "24 Hour Trading Volume",
+            coin.market_data.total_volume.usd,
+            true
+          )}
           {renderStatsItem(
             "Fully Diluted Valuation",
             coin.market_data.fully_diluted_valuation.usd,
@@ -56,4 +60,4 @@ const renderStatsItem = (title, data, isCurrency) => {
     );
 };
 
-export default Stats;
+export default CoinStats;

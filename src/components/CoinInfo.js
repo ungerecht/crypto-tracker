@@ -21,8 +21,7 @@ import {
 import { formatPercentage } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
-const Info = ({ coin }) => {
-  console.log(coin);
+const CoinInfo = ({ coin }) => {
   return renderInfo(coin);
 };
 
@@ -272,4 +271,4 @@ const stripHost = (domain) => {
   return domain.charAt(0).toUpperCase() + domain.slice(1);
 };
 
-export default Info;
+export default CoinInfo;

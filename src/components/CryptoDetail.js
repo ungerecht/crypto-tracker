@@ -1,10 +1,9 @@
 import React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCoinDetail } from "../actions";
-import Stats from "./Stats";
-import Info from "./Info";
-import Chart from "./Chart";
+import { useEffect, useState } from "react";
+import coingecko from "../apis/coingecko";
+import CoinStats from "./CoinStats";
+import CoinInfo from "./CoinInfo";
+import CoinChart from "./CoinChart";
 import {
   Container,
   Row,
@@ -16,29 +15,31 @@ import {
 import "../styles/CryptoDetail.css";
 
 const CryptoDetail = (props) => {
-  const { coin } = useSelector((state) => state.coins);
-  const dispatch = useDispatch();
   const coinId = props.match.params.id;
+  const [coin, setCoin] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchCoinDetail(coinId));
-  }, [dispatch, coinId]);
+    const fetchCoinDetail = async () => {
+      const response = await coingecko.get(coinId);
+      setCoin(response.data);
+    };
+    fetchCoinDetail();
+  }, [coinId]);
 
-  if (coin.id) {
-    //if (false) {
+  if (coin !== null) {
     return (
       <Container fluid="lg">
         <Row>
           <Col className="info-column pt-4">
-            <Info coin={coin}></Info>
+            <CoinInfo coin={coin}></CoinInfo>
           </Col>
           <Col>
-            <Stats coin={coin}></Stats>
+            <CoinStats coin={coin}></CoinStats>
           </Col>
         </Row>
         <Row>
           <Col>
-            <Chart coin={coin}></Chart>
+            <CoinChart coin={coin}></CoinChart>
           </Col>
         </Row>
         <Row>
@@ -93,21 +94,10 @@ const renderPlaceholders = () => {
       </Row>
       <Row>
         <Col>
-          <Card className="mt-3 px-2">
-            <Placeholder as={Card.Body} animation="glow">
-              <Placeholder
-                as="div"
-                className="d-flex justify-content-center mb-5"
-                animation="glow"
-              >
-                <Placeholder as={Card.Title} xs={2} />
-              </Placeholder>
-              <Placeholder
-                as="div"
-                style={{ height: "650px", width: "100%" }}
-              />
-            </Placeholder>
-          </Card>
+          <Card
+            className="mt-3 px-2"
+            style={{ height: "650px", width: "100%" }}
+          />
         </Col>
       </Row>
     </Container>

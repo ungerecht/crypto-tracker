@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPage, setActive } from "../actions";
+import { useEffect, useState } from "react";
+import coingecko from "../apis/coingecko";
 import PaginationBar from "./PaginationBar";
 import { Container, Placeholder } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
@@ -101,20 +100,32 @@ const CryptoList = (props) => {
     },
   ];
 
-  const { page, active } = useSelector((state) => state.page);
-  const dispatch = useDispatch();
-  const pageId = props.match.params.page;
+  const pageId = parseInt(props.match.params.page, 10);
+  const [page, setPage] = useState(pageId ? pageId : 1);
+  const [coins, setCoins] = useState([]);
 
   useEffect(() => {
-    getPageData(pageId, active, dispatch);
-  }, [pageId, active, dispatch]);
+    const fetchCoins = async () => {
+      const response = await coingecko.get("/markets", {
+        params: {
+          vs_currency: "usd",
+          order: "market_cap_desc",
+          page,
+          sparkline: true,
+          price_change_percentage: "24h,7d,1h",
+        },
+      });
+      setCoins(response.data);
+    };
+    fetchCoins();
+  }, [page]);
 
   return (
     <Container className="pt-5" fluid="xl">
       <BootstrapTable
         bootstrap4
         keyField="name"
-        data={page}
+        data={coins}
         columns={columns}
         hover={true}
         bordered={false}
@@ -123,7 +134,7 @@ const CryptoList = (props) => {
         rowStyle={{ height: "68px" }}
         noDataIndication={renderTablePlaceholders()}
       />
-      <PaginationBar />
+      <PaginationBar page={page} setPage={setPage} />
     </Container>
   );
 };
@@ -190,24 +201,6 @@ const chartFormatter = (cell, row) => {
       </Sparklines>
     </Link>
   );
-};
-
-const getPageData = (pageId, active, dispatch) => {
-  if (pageId) {
-    //url page number exists
-    const pageNum = parseInt(pageId, 10);
-    if (pageNum !== active) {
-      //url page is not active
-      dispatch(setActive(pageNum));
-      dispatch(fetchPage(pageNum));
-    } else {
-      //url page number exists and is active
-      dispatch(fetchPage(active));
-    }
-  } else {
-    //home page
-    dispatch(fetchPage(active));
-  }
 };
 
 const renderTablePlaceholders = () => {

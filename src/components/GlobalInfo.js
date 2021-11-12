@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchGlobalData } from "../actions";
+import coingeckoglobal from "../apis/coingeckoglobal";
 import { formatCurrency } from "@coingecko/cryptoformat";
 import { formatPercentage } from "../helpers";
 import "../styles/GlobalInfo.css";
 
 const GlobalInfo = () => {
-  const { globalData } = useSelector((state) => state.info);
-  const dispatch = useDispatch();
+  const [globalData, setGlobalData] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchGlobalData());
-  }, [dispatch]);
+    const fetchGlobalData = async () => {
+      const response = await coingeckoglobal.get();
+      setGlobalData(response.data.data);
+    };
+    fetchGlobalData();
+  }, []);
 
-  if (Object.keys(globalData).length !== 0) {
+  if (globalData !== null) {
     return (
-      <div className="d-flex flex-wrap py-2">
+      <div className="d-flex flex-wrap py-2 global-data">
         <div className="me-3">
           <span className="fw-bold me-1">Coins:</span>
           <span>{globalData.active_cryptocurrencies}</span>
@@ -64,7 +66,7 @@ const GlobalInfo = () => {
       </div>
     );
   } else {
-    return <div className="py-1" style={{ height: "26px" }}></div>;
+    return <div className="py-1" style={{ height: "34px" }}></div>;
   }
 };
 
