@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
 import GoogleAuth from "./GoogleAuth";
 import GlobalInfo from "./GlobalInfo";
@@ -7,28 +8,37 @@ import ThemeButton from "./ThemeButton";
 import "../styles/Header.css";
 
 const Header = () => {
+  const { theme } = useSelector((state) => state.theme);
+
   return (
-    <div>
+    <div className={`${theme.classes.bg} ${theme.classes.text}`}>
       <Container
         fluid="lg"
-        className="d-flex justify-content-end py-3"
+        className={`d-flex justify-content-end py-3`}
         style={{ height: "64px" }}
       >
         <GoogleAuth />
         <ThemeButton />
       </Container>
       <hr className="my-0" />
-      <Navbar className="py-0">
+      <Navbar className="py-0" variant={theme.mode}>
         <Container fluid="lg" className="flex-wrap py-3 align-items-center">
           <Navbar.Brand className="me-4 pt-0 pb-1 fw-bold" href="/">
             CryptoTracker
           </Navbar.Brand>
           <Nav className="d-flex flex-grow-1 py-0 justify-content-center justify-content-sm-start">
-            <Nav.Link className="fw-bold p-0 me-4" href="/">
+            <Nav.Link
+              className={`fw-bold p-0 me-4 ${theme.classes.text}`}
+              href="/"
+            >
               Coins
             </Nav.Link>
-            <Nav.Link className="fw-bold p-0 me-4">Exchanges</Nav.Link>
-            <Nav.Link className="fw-bold p-0">Watchlist</Nav.Link>
+            <Nav.Link className={`fw-bold p-0 me-4 ${theme.classes.text}`}>
+              Exchanges
+            </Nav.Link>
+            <Nav.Link className={`fw-bold p-0 ${theme.classes.text}`}>
+              Watchlist
+            </Nav.Link>
           </Nav>
           <Col>
             <SearchBar />

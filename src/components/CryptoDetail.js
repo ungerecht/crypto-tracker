@@ -13,8 +13,10 @@ import {
   ListGroup,
 } from "react-bootstrap";
 import "../styles/CryptoDetail.css";
+import { useSelector } from "react-redux";
 
 const CryptoDetail = (props) => {
+  const { theme } = useSelector((state) => state.theme);
   const coinId = props.match.params.id;
   const [coin, setCoin] = useState(null);
 
@@ -28,38 +30,48 @@ const CryptoDetail = (props) => {
 
   if (coin !== null) {
     return (
-      <Container fluid="lg">
-        <Row>
-          <Col className="info-column pt-4">
-            <CoinInfo coin={coin}></CoinInfo>
-          </Col>
-          <Col>
-            <CoinStats coin={coin}></CoinStats>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <CoinChart coin={coin}></CoinChart>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card className="mt-3 bg-light" border="light">
-              <Card.Body>
-                <Card.Title className="fw-bold">About {coin.name}</Card.Title>
-                <div className="px-3">
-                  <span className="about-text p-3">
-                    {htmlDecode(coin.description.en)}
-                  </span>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <div className={`${theme.classes.bg} ${theme.classes.text}`}>
+        <Container fluid="lg">
+          <Row>
+            <Col className="info-column pt-4">
+              <CoinInfo coin={coin} theme={theme}></CoinInfo>
+            </Col>
+            <Col>
+              <CoinStats coin={coin} theme={theme}></CoinStats>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <CoinChart coin={coin} theme={theme}></CoinChart>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card
+                className="mt-3"
+                border={`${theme.mode}`}
+                style={{ backgroundColor: theme.darker }}
+              >
+                <Card.Body>
+                  <Card.Title className="fw-bold">About {coin.name}</Card.Title>
+                  <div className="px-3">
+                    <span className="about-text p-3">
+                      {htmlDecode(coin.description.en)}
+                    </span>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   } else {
-    return renderPlaceholders();
+    return (
+      <div className={`${theme.classes.bg} ${theme.classes.text}`}>
+        {renderPlaceholders()}
+      </div>
+    );
   }
 };
 

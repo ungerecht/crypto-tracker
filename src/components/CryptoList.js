@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import coingecko from "../apis/coingecko";
 import PaginationBar from "./PaginationBar";
@@ -11,11 +12,13 @@ import "../styles/CryptoList.css";
 import BootstrapTable from "react-bootstrap-table-next";
 
 const CryptoList = (props) => {
+  const { theme } = useSelector((state) => state.theme);
   const columns = [
     {
       dataField: "market_cap_rank",
       text: "#",
       sort: true,
+      classes: `${theme.classes.text}`,
       headerStyle: {
         width: "40px",
       },
@@ -27,13 +30,14 @@ const CryptoList = (props) => {
       formatter: nameFormatter,
       classes: "name-block",
       headerClasses: "ps-4",
+      formatExtraData: theme.classes.text,
     },
     {
       dataField: "current_price",
       text: "Price",
       sort: true,
       formatter: priceFormatter,
-      classes: "text-end",
+      classes: `${theme.classes.text} text-end`,
       headerClasses: "text-end",
     },
     {
@@ -65,7 +69,7 @@ const CryptoList = (props) => {
       text: "Market Cap",
       sort: true,
       formatter: priceFormatter,
-      classes: "text-end",
+      classes: `${theme.classes.text} text-end`,
       headerClasses: "text-end",
     },
     {
@@ -73,7 +77,7 @@ const CryptoList = (props) => {
       text: "Circulating Supply",
       sort: true,
       formatter: supplyFormatter,
-      classes: "text-end",
+      classes: `${theme.classes.text} text-end`,
       headerClasses: "text-end",
     },
     {
@@ -121,27 +125,36 @@ const CryptoList = (props) => {
   }, [page]);
 
   return (
-    <Container className="pt-5" fluid="xl">
-      <BootstrapTable
-        bootstrap4
-        keyField="name"
-        data={coins}
-        columns={columns}
-        hover={true}
-        bordered={false}
-        wrapperClasses="table-responsive-lg"
-        headerWrapperClasses="sticky-top"
-        rowStyle={{ height: "68px" }}
-        noDataIndication={renderTablePlaceholders()}
-      />
-      <PaginationBar page={page} setPage={setPage} />
-    </Container>
+    <div className={`${theme.classes.bg}`}>
+      <Container className="pt-5" fluid="xl">
+        <BootstrapTable
+          bootstrap4
+          keyField="name"
+          data={coins}
+          columns={columns}
+          hover={true}
+          bordered={false}
+          wrapperClasses="table-responsive-lg"
+          headerWrapperClasses={`sticky-top ${theme.classes.bg} ${theme.classes.text}`}
+          rowStyle={{ height: "68px" }}
+          noDataIndication={renderTablePlaceholders()}
+        />
+        <PaginationBar page={page} theme={theme} />
+      </Container>
+    </div>
   );
 };
 
-const nameFormatter = (cell, row) => {
+const priceFormatter = (cell) => {
+  return <div>{formatCurrency(cell, "USD", "en")}</div>;
+};
+
+const nameFormatter = (cell, row, index, textStyle) => {
   return (
-    <Link to={`/coin/${row.id}`} className="text-decoration-none text-black">
+    <Link
+      to={`/coin/${row.id}`}
+      className={`text-decoration-none ${textStyle}`}
+    >
       <div className="d-flex align-items-center">
         <img
           src={row.image}
@@ -159,10 +172,6 @@ const nameFormatter = (cell, row) => {
       </div>
     </Link>
   );
-};
-
-const priceFormatter = (cell) => {
-  return formatCurrency(cell, "USD", "en");
 };
 
 const percentageFormatter = (cell) => {

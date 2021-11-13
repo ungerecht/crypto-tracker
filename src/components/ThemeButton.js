@@ -12,7 +12,7 @@ const ThemeButton = () => {
   return (
     <Button
       size="sm"
-      variant="outline-dark"
+      variant={theme.mode === "light" ? "outline-dark" : "outline-light"}
       className="mx-1 d-flex align-items-center bar-button"
       onClick={() => {
         theme.mode === "light"

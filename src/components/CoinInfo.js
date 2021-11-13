@@ -21,14 +21,16 @@ import {
 import { formatPercentage } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
-const CoinInfo = ({ coin }) => {
-  return renderInfo(coin);
+const CoinInfo = ({ coin, theme }) => {
+  return renderInfo(coin, theme);
 };
 
-const renderInfo = (coin) => {
+const renderInfo = (coin, theme) => {
   return (
     <>
-      <Badge className="bg-dark p-1">{`Rank #${coin.market_cap_rank}`}</Badge>
+      <Badge
+        className={`${theme.classes.bgSec} p-1`}
+      >{`Rank #${coin.market_cap_rank}`}</Badge>
       <span className="d-flex align-items-center my-3">
         <img
           src={coin.image.large}

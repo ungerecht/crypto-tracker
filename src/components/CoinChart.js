@@ -6,7 +6,7 @@ import ReactHighcharts from "react-highcharts/ReactHighstock.src";
 import { Card } from "react-bootstrap";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
-const CoinChart = ({ coin }) => {
+const CoinChart = ({ coin, theme }) => {
   const [chart, setChart] = useState(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const CoinChart = ({ coin }) => {
             return formatCurrency(this.value, "USD", "en", false, true);
           },
           x: -15,
-          style: { color: "#000" },
+          style: { color: theme.fontColor },
           align: "left",
         },
       },
@@ -82,12 +82,18 @@ const CoinChart = ({ coin }) => {
     },
     chart: {
       height: 600,
+      backgroundColor: theme.backgroundColor,
     },
     credits: {
       enabled: false,
     },
     xAxis: {
       type: "date",
+      labels: {
+        style: {
+          color: theme.fontColor,
+        },
+      },
     },
     rangeSelector: {
       buttons: [
@@ -116,8 +122,20 @@ const CoinChart = ({ coin }) => {
           text: "6m",
         },
       ],
+      buttonTheme: {
+        fill: theme.backgroundLight,
+        style: {
+          color: theme.fontColor,
+        },
+      },
       selected: 4,
       inputPosition: { align: "right" },
+      labelStyle: {
+        color: theme.fontColor,
+      },
+      inputStyle: {
+        color: theme.fontColor,
+      },
     },
     responsive: {
       rules: [
@@ -145,7 +163,7 @@ const CoinChart = ({ coin }) => {
   };
 
   return (
-    <Card className="mt-3 px-2 pt-3">
+    <Card className={`mt-3 px-2 pt-3 ${theme.classes.bg}`}>
       <Card.Title className="fw-bold text-center">
         {coin.name} Price Chart
       </Card.Title>
