@@ -8,7 +8,7 @@ import reducers from "./reducers";
 const persistConfig = {
   key: "reducers",
   storage,
-  whitelist: ["theme"],
+  whitelist: ["theme", "watchlist", "auth"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
