@@ -13,6 +13,7 @@ const App = () => {
         <Header />
         <Switch>
           <Route path="/" exact component={CryptoList} />
+          <Route path="/watchlist" component={CryptoList} />
           <Route path="/page=:page" component={CryptoList} />
           <Route path="/coin/:id" component={CryptoDetail} />
         </Switch>

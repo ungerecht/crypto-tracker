@@ -36,7 +36,10 @@ const Header = () => {
             <Nav.Link className={`fw-bold p-0 me-4 ${theme.classes.text}`}>
               Exchanges
             </Nav.Link>
-            <Nav.Link className={`fw-bold p-0 ${theme.classes.text}`}>
+            <Nav.Link
+              className={`fw-bold p-0 ${theme.classes.text}`}
+              href="/watchlist"
+            >
               Watchlist
             </Nav.Link>
           </Nav>
