@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import coingecko from "../apis/coingecko";
 import PaginationBar from "./PaginationBar";
@@ -8,12 +8,26 @@ import { Container, Placeholder } from "react-bootstrap";
 import { Sparklines, SparklinesLine } from "react-sparklines";
 import { formatPercentage, formatSupply } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
+import { starIcon, starFillIcon } from "../icons";
 import "../styles/CryptoList.css";
 import BootstrapTable from "react-bootstrap-table-next";
+import { addCoin, removeCoin } from "../actions";
 
 const CryptoList = (props) => {
   const { theme } = useSelector((state) => state.theme);
+  const { isSignedIn } = useSelector((state) => state.auth);
+  const { ids } = useSelector((state) => state.watchlist);
+  const dispatch = useDispatch();
   const columns = [
+    {
+      dataField: "star",
+      text: "",
+      isDummyField: true,
+      formatter: starFormatter,
+      classes: `${theme.classes.text} pe-0`,
+      headerClasses: "pe-0",
+      formatExtraData: { isSignedIn, ids, dispatch },
+    },
     {
       dataField: "market_cap_rank",
       text: "#",
@@ -104,8 +118,22 @@ const CryptoList = (props) => {
     },
   ];
 
+  let numberOfCoins = useSelector((state) => state.coins.number);
+  let watchlistIds = "";
+  let shouldFetch = true;
+
+  //if page is a watchlist
+  const isWatchlist = props.match.path === "/watchlist";
+  if (isWatchlist) {
+    watchlistIds = ids.toString();
+    numberOfCoins = ids.length;
+    //if watchlist is empty - prevent data fetching
+    if (numberOfCoins === 0) shouldFetch = false;
+  }
+
+  const pages = Math.ceil(numberOfCoins / 100);
   const pageId = parseInt(props.match.params.page, 10);
-  const [page, setPage] = useState(pageId ? pageId : 1);
+  const [page] = useState(pageId ? pageId : 1);
   const [coins, setCoins] = useState([]);
 
   useEffect(() => {
@@ -114,6 +142,7 @@ const CryptoList = (props) => {
         params: {
           vs_currency: "usd",
           order: "market_cap_desc",
+          ids: watchlistIds,
           page,
           sparkline: true,
           price_change_percentage: "24h,7d,1h",
@@ -121,11 +150,41 @@ const CryptoList = (props) => {
       });
       setCoins(response.data);
     };
-    fetchCoins();
-  }, [page]);
+    if (shouldFetch) fetchCoins();
+  }, [page, watchlistIds, shouldFetch]);
+
+  //display message for watchlist when signed out
+  if (isWatchlist && !isSignedIn) {
+    return (
+      <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
+        <Container className="pt-5" fluid="xl">
+          <h2 className={`my-0 ${theme.classes.text} text-center`}>
+            Please Log In to use watchlist.
+          </h2>
+        </Container>
+      </div>
+    );
+  }
+
+  //display message for watchlist when it is empty
+  if (isWatchlist && isSignedIn && numberOfCoins === 0) {
+    return (
+      <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
+        <Container className="pt-5" fluid="xl">
+          <h2 className={`${theme.classes.text} text-center`}>
+            Your watchlist is empty.
+          </h2>
+          <h5 className={`my-0 ${theme.classes.text} text-center`}>
+            Click the star icons next to your favorite coins to add them to your
+            watchlist.
+          </h5>
+        </Container>
+      </div>
+    );
+  }
 
   return (
-    <div className={`${theme.classes.bg}`}>
+    <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
       <Container className="pt-5" fluid="xl">
         <BootstrapTable
           bootstrap4
@@ -137,10 +196,29 @@ const CryptoList = (props) => {
           wrapperClasses="table-responsive-lg"
           headerWrapperClasses={`sticky-top ${theme.classes.bg} ${theme.classes.text}`}
           rowStyle={{ height: "68px" }}
-          noDataIndication={renderTablePlaceholders()}
+          noDataIndication={renderTablePlaceholders(theme)}
         />
-        <PaginationBar page={page} theme={theme} />
+        <PaginationBar page={page} pages={pages} />
       </Container>
+    </div>
+  );
+};
+
+const starFormatter = (cell, row, index, data) => {
+  return (
+    <div
+      className="d-flex"
+      onClick={() => {
+        if (data.isSignedIn) {
+          !data.ids.includes(row.id)
+            ? data.dispatch(addCoin(row.id))
+            : data.dispatch(removeCoin(row.id));
+        } else {
+          console.log("not signed in");
+        }
+      }}
+    >
+      {data.isSignedIn && data.ids.includes(row.id) ? starFillIcon : starIcon}
     </div>
   );
 };
@@ -212,7 +290,7 @@ const chartFormatter = (cell, row) => {
   );
 };
 
-const renderTablePlaceholders = () => {
+const renderTablePlaceholders = (theme) => {
   let placeholders = [];
   for (let i = 0; i < 50; i++) {
     placeholders.push(
@@ -224,10 +302,14 @@ const renderTablePlaceholders = () => {
             style={{ height: "100%", width: "100%" }}
             className="d-flex align-items-center mx-2"
           >
-            <Placeholder size="lg" style={{ width: "100%" }} />
+            <Placeholder
+              size="lg"
+              style={{ width: "100%" }}
+              bg={theme.mode === "light" ? "dark" : "light"}
+            />
           </Placeholder>
         </div>
-        <hr className="m-0" />
+        <hr className={`my-0 ${theme.classes.text}`} />
       </React.Fragment>
     );
   }

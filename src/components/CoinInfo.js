@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addCoin, removeCoin } from "../actions";
 
 import {
   Col,
@@ -17,15 +19,17 @@ import {
   peopleIcon,
   linkIcon,
   globeIcon,
+  starIcon,
+  starFillIcon,
 } from "../icons";
 import { formatPercentage } from "../helpers";
 import { formatCurrency } from "@coingecko/cryptoformat";
 
 const CoinInfo = ({ coin, theme }) => {
-  return renderInfo(coin, theme);
-};
+  const { isSignedIn } = useSelector((state) => state.auth);
+  const { ids } = useSelector((state) => state.watchlist);
+  const dispatch = useDispatch();
 
-const renderInfo = (coin, theme) => {
   return (
     <>
       <Badge
@@ -40,6 +44,21 @@ const renderInfo = (coin, theme) => {
         />
         <h2 className="mb-1 text-nowrap">{coin.name}</h2>
         <h4 className="mb-0 mx-2 text-muted">{coin.symbol.toUpperCase()}</h4>
+        <Button
+          variant={theme.mode === "light" ? "light" : "secondary"}
+          className="d-flex px-2 ms-1"
+          onClick={() => {
+            if (isSignedIn) {
+              !ids.includes(coin.id)
+                ? dispatch(addCoin(coin.id))
+                : dispatch(removeCoin(coin.id));
+            } else {
+              console.log("not signed in");
+            }
+          }}
+        >
+          {isSignedIn && ids.includes(coin.id) ? starFillIcon : starIcon}
+        </Button>
       </span>
       {renderPrice(coin)}
       {renderLinks(coin)}
