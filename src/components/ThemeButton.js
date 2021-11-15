@@ -8,7 +8,6 @@ import { DARK_THEME, LIGHT_THEME } from "../actions/themes";
 const ThemeButton = () => {
   const theme = useSelector((state) => state.theme.theme);
   const dispatch = useDispatch();
-  console.log(theme);
   return (
     <Button
       size="sm"
