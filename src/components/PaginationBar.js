@@ -1,15 +1,12 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Pagination } from "react-bootstrap";
 import history from "../history";
 import "../styles/PaginationBar.css";
 
-const PaginationBar = ({ page }) => {
-  const numberOfCoins = useSelector((state) => state.coins.number);
-
+const PaginationBar = ({ page, pages }) => {
   const createPagination = () => {
     const onFirst = page === 1;
-    const onLast = page === Math.ceil(numberOfCoins / 100);
+    const onLast = page === pages;
     return (
       <Pagination size="sm">
         <Pagination.Prev
@@ -31,13 +28,9 @@ const PaginationBar = ({ page }) => {
 
   const createItems = () => {
     let items = [];
-    const amountOfPages = Math.ceil(numberOfCoins / 100);
-    for (let i = 1; i <= amountOfPages; i++) {
-      if (i === 1 || i === amountOfPages || (i >= page - 5 && i <= page + 5)) {
-        if (
-          (i === page - 5 && i !== 1) ||
-          (i === page + 5 && i !== amountOfPages)
-        ) {
+    for (let i = 1; i <= pages; i++) {
+      if (i === 1 || i === pages || (i >= page - 5 && i <= page + 5)) {
+        if ((i === page - 5 && i !== 1) || (i === page + 5 && i !== pages)) {
           items = [...items, <Pagination.Ellipsis key={i} disabled />];
         } else {
           items = [
