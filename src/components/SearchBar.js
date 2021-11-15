@@ -12,7 +12,7 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (coins.length === 0) dispatch(fetchCoins());
+    dispatch(fetchCoins());
   }, [dispatch]);
 
   const [isLoading, setIsLoading] = useState(false);
