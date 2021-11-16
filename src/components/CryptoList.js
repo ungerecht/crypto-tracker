@@ -15,9 +15,28 @@ import { addCoin, removeCoin } from "../actions";
 
 const CryptoList = (props) => {
   const { theme } = useSelector((state) => state.theme);
-  const { isSignedIn } = useSelector((state) => state.auth);
+  const { userId, isSignedIn } = useSelector((state) => state.auth);
   const { ids } = useSelector((state) => state.watchlist);
+
+  let numberOfCoins = useSelector((state) => state.coins.number);
+  let watchlistIds = "";
+  let shouldFetch = true;
+
+  //if page is a watchlist
+  if (props.isWatchList) {
+    watchlistIds = ids.toString();
+    numberOfCoins = ids.length;
+    //if watchlist is empty - prevent data fetching
+    if (numberOfCoins === 0) shouldFetch = false;
+  }
+
+  const pages = Math.ceil(numberOfCoins / 100);
+  const pageId = parseInt(props.match.params.page, 10);
+  const [page] = useState(pageId ? pageId : 1);
+  const [coins, setCoins] = useState([]);
+
   const dispatch = useDispatch();
+
   const columns = [
     {
       dataField: "star",
@@ -118,24 +137,6 @@ const CryptoList = (props) => {
     },
   ];
 
-  let numberOfCoins = useSelector((state) => state.coins.number);
-  let watchlistIds = "";
-  let shouldFetch = true;
-
-  //if page is a watchlist
-  const isWatchlist = props.match.path === "/watchlist";
-  if (isWatchlist) {
-    watchlistIds = ids.toString();
-    numberOfCoins = ids.length;
-    //if watchlist is empty - prevent data fetching
-    if (numberOfCoins === 0) shouldFetch = false;
-  }
-
-  const pages = Math.ceil(numberOfCoins / 100);
-  const pageId = parseInt(props.match.params.page, 10);
-  const [page] = useState(pageId ? pageId : 1);
-  const [coins, setCoins] = useState([]);
-
   useEffect(() => {
     const fetchCoins = async () => {
       const response = await coingecko.get("/markets", {
@@ -152,36 +153,6 @@ const CryptoList = (props) => {
     };
     if (shouldFetch) fetchCoins();
   }, [page, watchlistIds, shouldFetch]);
-
-  //display message for watchlist when signed out
-  if (isWatchlist && !isSignedIn) {
-    return (
-      <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
-        <Container className="pt-5" fluid="xl">
-          <h2 className={`my-0 ${theme.classes.text} text-center`}>
-            Please Log In to use watchlist.
-          </h2>
-        </Container>
-      </div>
-    );
-  }
-
-  //display message for watchlist when it is empty
-  if (isWatchlist && isSignedIn && numberOfCoins === 0) {
-    return (
-      <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
-        <Container className="pt-5" fluid="xl">
-          <h2 className={`${theme.classes.text} text-center`}>
-            Your watchlist is empty.
-          </h2>
-          <h5 className={`my-0 ${theme.classes.text} text-center`}>
-            Click the star icons next to your favorite coins to add them to your
-            watchlist.
-          </h5>
-        </Container>
-      </div>
-    );
-  }
 
   return (
     <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
