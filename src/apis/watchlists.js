@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:3001/watchlists",
+  baseURL: "https://crypto-tracker-json-server.herokuapp.com/watchlists",
 });
