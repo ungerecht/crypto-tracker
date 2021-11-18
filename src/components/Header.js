@@ -1,14 +1,44 @@
 import React from "react";
 import { Navbar, Nav, Container, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getWatchlist, clearWatchlist } from "../actions";
 import SearchBar from "./SearchBar";
 import GoogleAuth from "./GoogleAuth";
 import GlobalInfo from "./GlobalInfo";
 import ThemeButton from "./ThemeButton";
 import "../styles/Header.css";
+import watchlists from "../apis/watchlists";
 
 const Header = () => {
   const { theme } = useSelector((state) => state.theme);
+  const { isSignedIn, userId } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const makeWatchlist = async () => {
+      await watchlists.post("", { coins: [], id: userId });
+    };
+
+    const checkWatchlistExists = async () => {
+      const response = await watchlists.get();
+      if (response.data.some((wl) => wl.id === userId)) {
+        //user watchlist exists so fetch it
+        dispatch(getWatchlist());
+      } else {
+        //user watchlist does not exist to create it
+        makeWatchlist();
+      }
+    };
+
+    if (isSignedIn) {
+      //logging in
+      checkWatchlistExists();
+    } else {
+      //logging out and clear watchlist
+      dispatch(clearWatchlist());
+    }
+  }, [dispatch, isSignedIn, userId]);
 
   return (
     <div className={`${theme.classes.bg} ${theme.classes.text}`}>
@@ -32,9 +62,6 @@ const Header = () => {
               href="/"
             >
               Coins
-            </Nav.Link>
-            <Nav.Link className={`fw-bold p-0 me-4 ${theme.classes.text}`}>
-              Exchanges
             </Nav.Link>
             <Nav.Link
               className={`fw-bold p-0 ${theme.classes.text}`}
