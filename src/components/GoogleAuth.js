@@ -35,9 +35,7 @@ const GoogleAuth = () => {
   }, [dispatch]);
 
   const renderAuthButton = () => {
-    if (isSignedIn === null) {
-      return null;
-    } else if (isSignedIn) {
+    if (isSignedIn) {
       return (
         <Button
           size="sm"
