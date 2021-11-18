@@ -13,6 +13,14 @@ th {
   font-size: 0.875em;
 }
 
+.data-percent {
+  width: 70px;
+}
+
+.name-block > a > div > small {
+  font-size: 0.8em;
+}
+
 .react-bootstrap-table > table {
   table-layout: auto !important;
 }
