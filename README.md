@@ -1,6 +1,6 @@
 # Cryptocurrency Tracking App
 
-DEVELOPMENT IN PROGRESS
+[Demo](https://https://ungerecht-crypto-tracker.herokuapp.com/coin/bitcoin)
 
 ## Description
 
