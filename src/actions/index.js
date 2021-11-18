@@ -1,4 +1,5 @@
 import coingecko from "../apis/coingecko";
+import watchlists from "../apis/watchlists";
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -6,6 +7,8 @@ import {
   SWITCH_THEME,
   ADD_COIN,
   REMOVE_COIN,
+  GET_LIST,
+  CLEAR_LIST,
 } from "./types";
 
 export const signIn = (userId) => {
@@ -33,16 +36,32 @@ export const switchTheme = (theme) => {
   };
 };
 
-export const addCoin = (id) => {
-  return {
-    type: ADD_COIN,
-    payload: id,
-  };
+export const getWatchlist = () => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+  const response = await watchlists.get(userId);
+  dispatch({ type: GET_LIST, payload: response.data });
 };
 
-export const removeCoin = (id) => {
+export const addCoin = (coin) => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+  const { ids } = getState().watchlist;
+  const response = await watchlists.patch(`${userId}`, {
+    coins: [...ids, coin],
+  });
+  dispatch({ type: ADD_COIN, payload: response.data });
+};
+
+export const removeCoin = (coin) => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+  const { ids } = getState().watchlist;
+  const response = await watchlists.patch(`${userId}`, {
+    coins: [...ids.filter((id) => id !== coin)],
+  });
+  dispatch({ type: REMOVE_COIN, payload: response.data });
+};
+
+export const clearWatchlist = () => {
   return {
-    type: REMOVE_COIN,
-    payload: id,
+    type: CLEAR_LIST,
   };
 };
