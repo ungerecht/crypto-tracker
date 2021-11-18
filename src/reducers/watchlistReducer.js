@@ -1,4 +1,4 @@
-import { ADD_COIN, REMOVE_COIN } from "../actions/types";
+import { ADD_COIN, REMOVE_COIN, GET_LIST, CLEAR_LIST } from "../actions/types";
 
 const INITIAL_STATE = {
   ids: [],
@@ -6,10 +6,14 @@ const INITIAL_STATE = {
 
 const watchlistReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GET_LIST:
+      return { ...state, ids: action.payload.coins };
     case ADD_COIN:
-      return { ...state, ids: [...state.ids, action.payload] };
+      return { ...state, ids: action.payload.coins };
     case REMOVE_COIN:
-      return { ...state, ids: state.ids.filter((id) => id !== action.payload) };
+      return { ...state, ids: action.payload.coins };
+    case CLEAR_LIST:
+      return { ...state, ids: [] };
     default:
       return state;
   }
