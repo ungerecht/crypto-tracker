@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 import "../styles/CryptoDetail.css";
 import { useSelector } from "react-redux";
+import { htmlDecode } from "../helpers";
 
 const CryptoDetail = (props) => {
   const { theme } = useSelector((state) => state.theme);
@@ -146,11 +147,6 @@ const renderStatsPlaceholders = () => {
     );
   }
   return placeholders;
-};
-
-const htmlDecode = (input) => {
-  var doc = new DOMParser().parseFromString(input, "text/html");
-  return doc.documentElement.textContent;
 };
 
 export default CryptoDetail;
