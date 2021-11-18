@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { MY_CLIENT_ID } from "../keys";
+//import { MY_CLIENT_ID } from "../keys";
 import { signIn, signOut } from "../actions";
 import { googleIcon } from "../icons";
 
@@ -24,7 +24,7 @@ const GoogleAuth = () => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
-          clientId: MY_CLIENT_ID,
+          clientId: process.env.MY_CLIENT_ID,
           scope: "email",
         })
         .then(() => {
