@@ -9,6 +9,7 @@ import "../styles/SearchBar.css";
 
 const SearchBar = () => {
   const { coins } = useSelector((state) => state.coins);
+  const { theme } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const SearchBar = () => {
 
   return (
     <Typeahead
+      className={`${theme.mode}`}
       id="search"
       isLoading={isLoading}
       labelKey="name"
