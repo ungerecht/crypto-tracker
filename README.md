@@ -1,47 +1,56 @@
-# Cryptocurrency Tracking App
+# CryptoTracker
+A cryptocurrency price and data tracking application.<br/>
 
-[Demo](https://https://ungerecht-crypto-tracker.herokuapp.com/coin/bitcoin)
+[Live Demo](https://ungerecht-crypto-tracker.herokuapp.com/)
 
-## Description
+## Motivation
 
-This app was created as a portfolio project and is a clone of [CoinGecko.com](https://coingecko.com)
+This project was created as a portfolio piece to practice and learn new front-end development skills, specifically using React.js. It is a clone of [CoinGecko.com](https://coingecko.com).
 
-## Technologies
+## Features
+- View detailed information on thousands of digital currencies, tokens, and swaps
+- View historical price charts up to six months ago
+- Search cryptocurrencies by name
+- Log in with your Google account and build your own personalized watchlist
+- Dark / Light mode toggle
 
-### Environment
+## Technologies Used
+- Environment
+  - [create-react-app](https://github.com/facebook/create-react-app)
 
-[create-react-app](https://github.com/facebook/create-react-app)
+- Cryptocurrency Data
+  - [CoinGecko API](https://www.coingecko.com/en/api)
 
-### Cryptocurrency Data
+- State Management
+  - [Redux](https://redux.js.org/)
 
-[CoinGecko API](https://www.coingecko.com/en/api)
+- Charts
+  - [react-highcharts](https://github.com/kirjs/react-highcharts)
+  - [react-sparklines](https://github.com/borisyankov/react-sparklines)
 
-### State Management
+- Tables
+  - [react-bootstrap-table2](https://github.com/react-bootstrap-table/react-bootstrap-table2)
 
-[Redux](https://redux.js.org/)
+- Styling
+  - [react-bootstrap](https://react-bootstrap.github.io/)
+  - [Bootstrap V5.1.3](https://getbootstrap.com/)
 
-### Charts
+- Icons
+  - [Bootstrap Icon Library](https://icons.getbootstrap.com/)
 
-[react-highcharts](https://github.com/kirjs/react-highcharts)<br/>
-[react-sparklines](https://github.com/borisyankov/react-sparklines)
+- Authentication
+  - [Google OAuth](https://developers.google.com/identity/protocols/oauth2)
 
-### Tables
+- Database
+  - [json-server](https://github.com/typicode/json-server)
 
-[react-bootstrap-table2](https://github.com/react-bootstrap-table/react-bootstrap-table2)
+## TODO
+- [ ] Add support for languages other than English
+- [ ] Add support for fiat currencies other than USD
+- [ ] Add list of exchanges and information
 
-### Styling
+## Contributing
+Feel free to contribute by submitting issues on Github. Suggestions for improvements are welcome!
 
-[react-bootstrap](https://react-bootstrap.github.io/) <br/>
-[Bootstrap V5.1.3](https://getbootstrap.com/)
-
-### Icons
-
-[Bootstrap Icon Library](https://icons.getbootstrap.com/)
-
-### Authentication
-
-[Google OAuth](https://developers.google.com/identity/protocols/oauth2)
-
-### Database
-
-[json-server](https://github.com/typicode/json-server)
+## Contact
+You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/kevin-ungerecht-228610123).
