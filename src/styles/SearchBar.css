@@ -1,3 +1,19 @@
 .rbt {
   min-width: 240px;
 }
+
+.dark > div > .form-control,
+.dark > .rbt-menu,
+.dark > .rbt-menu > a {
+  background-color: black;
+  color: white;
+}
+
+.dark > .rbt-menu > a:hover,
+.dark > .rbt-menu > a.active {
+  background-color: #6c757d;
+}
+
+.dark > div > .rbt-input-hint {
+  color: white !important;
+}
