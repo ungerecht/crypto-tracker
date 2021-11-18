@@ -15,7 +15,7 @@ import { addCoin, removeCoin } from "../actions";
 
 const CryptoList = (props) => {
   const { theme } = useSelector((state) => state.theme);
-  const { userId, isSignedIn } = useSelector((state) => state.auth);
+  const { isSignedIn } = useSelector((state) => state.auth);
   const { ids } = useSelector((state) => state.watchlist);
 
   let numberOfCoins = useSelector((state) => state.coins.number);
@@ -75,10 +75,10 @@ const CryptoList = (props) => {
     },
     {
       dataField: "price_change_percentage_1h_in_currency",
-      text: "1d",
+      text: "1h",
       sort: true,
       formatter: percentageFormatter,
-      classes: "text-end",
+      classes: "text-end data-percent",
       headerClasses: "text-end",
     },
     {
@@ -86,7 +86,7 @@ const CryptoList = (props) => {
       text: "24h",
       sort: true,
       formatter: percentageFormatter,
-      classes: "text-end",
+      classes: "text-end data-percent",
       headerClasses: "text-end",
     },
     {
@@ -94,7 +94,15 @@ const CryptoList = (props) => {
       text: "7d",
       sort: true,
       formatter: percentageFormatter,
-      classes: "text-end",
+      classes: "text-end data-percent",
+      headerClasses: "text-end",
+    },
+    {
+      dataField: "total_volume",
+      text: "24h Volume",
+      sort: true,
+      formatter: priceFormatter,
+      classes: `${theme.classes.text} text-end`,
       headerClasses: "text-end",
     },
     {
@@ -102,14 +110,6 @@ const CryptoList = (props) => {
       text: "Market Cap",
       sort: true,
       formatter: priceFormatter,
-      classes: `${theme.classes.text} text-end`,
-      headerClasses: "text-end",
-    },
-    {
-      dataField: "circulating_supply",
-      text: "Circulating Supply",
-      sort: true,
-      formatter: supplyFormatter,
       classes: `${theme.classes.text} text-end`,
       headerClasses: "text-end",
     },
@@ -155,7 +155,7 @@ const CryptoList = (props) => {
   }, [page, watchlistIds, shouldFetch]);
 
   return (
-    <div className={`${theme.classes.bg}`} style={{ minHeight: "70vh" }}>
+    <div style={{ minHeight: "70vh", backgroundColor: theme.darker }}>
       <Container className="pt-5" fluid="xl">
         <BootstrapTable
           bootstrap4
@@ -169,7 +169,7 @@ const CryptoList = (props) => {
           rowStyle={{ height: "68px" }}
           noDataIndication={renderTablePlaceholders(theme)}
         />
-        <PaginationBar page={page} pages={pages} />
+        <PaginationBar page={page} pages={pages} theme={theme} />
       </Container>
     </div>
   );
@@ -215,7 +215,7 @@ const nameFormatter = (cell, row, index, textStyle) => {
         <strong className="d-inline d-lg-none">
           {row.symbol.toUpperCase()}
         </strong>
-        <small className="ms-2 d-none d-lg-inline">
+        <small className="ms-1 d-none d-lg-inline">
           {row.symbol.toUpperCase()}
         </small>
       </div>
