@@ -8,10 +8,11 @@ A cryptocurrency price and data tracking application.<br/>
 This project was created as a portfolio piece to practice and learn new front-end development skills, specifically using React.js. It is a clone of [CoinGecko.com](https://coingecko.com).
 
 ## Features
-- View detailed information on thousands of digital currencies, tokens, and swaps
+- View detailed information on 10,000+ digital currencies, tokens, and swaps
 - View historical price charts up to six months ago
 - Search cryptocurrencies by name
 - Log in with your Google account and build your own personalized watchlist
+- Fully responsive design
 - Dark / Light mode toggle
 
 ## Technologies Used
