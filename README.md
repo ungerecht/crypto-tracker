@@ -1,7 +1,8 @@
 # CryptoTracker
 A cryptocurrency price and data tracking application.<br/>
-
 [Live Demo](https://ungerecht-crypto-tracker.herokuapp.com/)
+
+![screenshot](/crypto-tracker.png)
 
 ## Motivation
 
