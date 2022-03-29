@@ -52,7 +52,7 @@ This project was created as a portfolio piece to practice and learn new front-en
 - [ ] Add list of exchanges and information
 
 ## Contributing
-Feel free to contribute by submitting issues on Github. Suggestions for improvements are welcome!
+Feel free to contribute by submitting issues or pull requests on Github. Suggestions for improvements and constructive criticism are welcome!
 
 ## Contact
 You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/kevin-ungerecht-228610123).
