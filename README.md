@@ -1,6 +1,6 @@
-# CryptoTracker
+# Crypto Tracker
 A cryptocurrency price and data tracking application.<br/>
-[Live Demo](https://ungerecht-crypto-tracker.herokuapp.com/)
+[Live Demo](https://cryptocoinstracker.herokuapp.com/)
 
 ![screenshot](/crypto-tracker.png)
 
