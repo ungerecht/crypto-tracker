@@ -1,0 +1,54 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn build
+        env:
+          CI: false
+          # react-scripts 4 (webpack 4) fails on Node 17+ without this
+          NODE_OPTIONS: --openssl-legacy-provider
+          # Set under Settings > Secrets and variables > Actions > Variables
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+
+      # Lets client-side routes (react-router) work on refresh/deep links
+      - name: Add SPA fallback
+        run: cp build/index.html build/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
