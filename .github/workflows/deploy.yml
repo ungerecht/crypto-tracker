@@ -33,7 +33,7 @@ jobs:
           # react-scripts 4 (webpack 4) fails on Node 17+ without this
           NODE_OPTIONS: --openssl-legacy-provider
           # Set under Settings > Secrets and variables > Actions > Variables
-          WATCHLISTS_API_URL: ${{ vars.WATCHLISTS_API_URL }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
 
       # Lets client-side routes (react-router) work on refresh/deep links
       - name: Add SPA fallback
