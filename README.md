@@ -1,6 +1,6 @@
 # Crypto Tracker
 A cryptocurrency price and market data tracking application built with React.<br/>
-[Live Demo](https://cryptocoinstracker.herokuapp.com/)
+~[Live Demo](https://cryptocoinstracker.herokuapp.com/)~
 
 ![screenshot](/crypto-tracker.png)
 
@@ -55,4 +55,4 @@ This project was created as a portfolio piece to practice and learn new front-en
 Feel free to contribute by submitting issues or pull requests on Github. Suggestions for improvements and constructive criticism are welcome!
 
 ## Contact
-You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/kevin-ungerecht-228610123).
+You can contact me by sending me a message on [Linked In](https://www.linkedin.com/in/ungerecht).
