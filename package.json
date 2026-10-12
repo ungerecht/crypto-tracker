@@ -1,7 +1,7 @@
 {
   "name": "crypto-tracker",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "/crypto-tracker",
   "private": true,
   "dependencies": {
     "@coingecko/cryptoformat": "^0.4.4",
