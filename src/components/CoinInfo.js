@@ -127,17 +127,16 @@ const renderPrice = (coin) => {
 };
 
 const renderLinks = (coin) => {
+  const homepage = coin.links.homepage?.[0];
+  const github = coin.links.repos_url?.github?.[0];
+
   return (
     <Col className="links-column">
       <ButtonToolbar className="mt-3">
-        {renderLink(
-          coin.links.homepage[0],
-          stripDomain(coin.links.homepage[0]),
-          linkIcon
-        )}
+        {renderLink(homepage, stripDomain(homepage), linkIcon)}
         {renderExplorers(coin)}
         {renderCommunities(coin.links)}
-        {renderLink(coin.links.repos_url.github[0], "Source Code", codeIcon)}
+        {renderLink(github, "Source Code", codeIcon)}
       </ButtonToolbar>
       {renderTags(coin.categories)}
     </Col>
@@ -205,17 +204,18 @@ const renderCommunities = (links) => {
       </Dropdown.Item>,
     ];
   }
-  if (links.official_forum_url[0] !== "") {
+  const forumUrl = links.official_forum_url?.[0];
+  if (forumUrl) {
     communities = [
       ...communities,
       <Dropdown.Item
         key="forum"
         variant="secondary"
         className="links-button"
-        href={links.official_forum_url[0]}
+        href={forumUrl}
         target="_blank"
       >
-        {stripDomain(links.official_forum_url[0])}
+        {stripDomain(forumUrl)}
       </Dropdown.Item>,
     ];
   }
@@ -235,7 +235,7 @@ const renderCommunities = (links) => {
 
 const renderExplorers = (coin) => {
   //filter empty and null values
-  const filtered = coin.links.blockchain_site.filter((explorer) => {
+  const filtered = (coin.links.blockchain_site || []).filter((explorer) => {
     return explorer && explorer.length !== 0;
   });
   const explorers = filtered.map((explorer) => {
@@ -277,6 +277,10 @@ const renderTags = (categories) => {
 };
 
 const stripDomain = (url) => {
+  if (!url) {
+    return "";
+  }
+
   return url
     .replace("http://", "")
     .replace("https://", "")

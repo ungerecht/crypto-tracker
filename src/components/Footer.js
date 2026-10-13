@@ -30,7 +30,7 @@ const Footer = () => {
                 rel='noopener noreferrer'
                 className='text-white text-decoration-none'
               >
-                Kevin Ungerecht
+                Avery Ungerecht
               </a>
             </span>
           </div>

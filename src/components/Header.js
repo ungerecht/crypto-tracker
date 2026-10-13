@@ -53,19 +53,19 @@ const Header = () => {
       <hr className='my-0' />
       <Navbar className='py-0' variant={theme.mode}>
         <Container fluid='lg' className='flex-wrap py-3 align-items-center'>
-          <Navbar.Brand className='me-4 pt-0 pb-1 fw-bold' href='/'>
+          <Navbar.Brand className='me-4 pt-0 pb-1 fw-bold' href={`${process.env.PUBLIC_URL}/`}>
             Crypto Tracker
           </Navbar.Brand>
           <Nav className='d-flex flex-grow-1 py-0 justify-content-center justify-content-sm-start'>
             <Nav.Link
               className={`fw-bold p-0 me-4 ${theme.classes.text}`}
-              href='/'
+              href={`${process.env.PUBLIC_URL}/`}
             >
               Coins
             </Nav.Link>
             <Nav.Link
               className={`fw-bold p-0 ${theme.classes.text}`}
-              href='/watchlist'
+              href={`${process.env.PUBLIC_URL}/watchlist`}
             >
               Watchlist
             </Nav.Link>
