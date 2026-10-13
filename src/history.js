@@ -1,2 +1,2 @@
 import { createBrowserHistory } from "history";
-export default createBrowserHistory({ forceRefresh: true });
+export default createBrowserHistory({ basename: process.env.PUBLIC_URL });

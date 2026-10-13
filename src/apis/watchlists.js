@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://crypto-tracker-json-server.herokuapp.com/watchlists",
+  baseURL: process.env.REACT_APP_API_URL,
 });
